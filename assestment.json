@@ -1,0 +1,50 @@
+{
+    "events": [
+  
+    {
+    "createdAt": "2025-05-15T20:10:43.209Z",
+    "markets": [
+    {
+    "id": "45e726f3-561a-45fb-bf78-8941cf6716e2",
+    "title": "Will Gyokeres sign for Arsenal?",
+    "rules": "This market will resolve as **Yes** if Viktor Gyökeres is officially announced as a first-team player for Arsenal at any time during the Summer 2025 transfer window, as per official club channels or a reputable source (e.g., Arsenal.com, Fabrizio Romano, BBC Sport, Sky Sports, or UEFA).\r\n\r\nIt will resolve as **No** if he is not officially announced as an Arsenal player by the close of the 2025 summer transfer window.\r\n\r\nLoan deals, permanent transfers, or free-agent signings all qualify as long as Gyökeres joins Arsenal’s senior squad.\r\n\r\nIf Gyökeres is not announced by a reliable source or joins a different club, the market will resolve as **No**\r\n\r\nVerification will be based on official announcements from Arsenal FC or trusted news sources such as Fabrizio Romano, BBC (https://www.bbc.com/sport), or Sky Sports (https://www.skysports.com/)\r\n",
+    "imageUrl": "https://gowagr.s3.eu-west-2.amazonaws.com/event-images/1747339843020_event_will_gyokeres_sign_for_arsenal_512x512.webp",
+    "image128Url": "https://gowagr.s3.eu-west-2.amazonaws.com/event-images/1747339843020_event_will_gyokeres_sign_for_arsenal_128x128.webp",
+    "yesBuyPrice": 0.3694,
+    "noBuyPrice": 0.6807,
+    "yesPriceForEstimate": 10,
+    "noPriceForEstimate": 10,
+    "status": "open",
+    "resolvedOutcome": null,
+    "volumeValueYes": 94.17,
+    "volumeValueNo": 180.18,
+    "yesProfitForEstimate": 27,
+    "noProfitForEstimate": 14
+    }
+    ],
+    "resolvedAt": null,
+    "imageUrl": "https://gowagr.s3.eu-west-2.amazonaws.com/event-images/1747339843020_event_will_gyokeres_sign_for_arsenal_512x512.webp",
+    "image128Url": "https://gowagr.s3.eu-west-2.amazonaws.com/event-images/1747339843020_event_will_gyokeres_sign_for_arsenal_128x128.webp",
+    "id": "0a966df2-45a1-4223-8f8d-b765bc580bdc",
+    "title": "Will Gyokeres sign for Arsenal?",
+    "type": "SINGLE_MARKET",
+    "description": "Viktor Gyökeres, the prolific Swedish striker currently starring for Sporting CP, has been heavily linked with a move to the Premier League following a standout season in Portugal. With Arsenal in the market for a new number 9 and reportedly monitoring the forward closely, could the Gunners make a marquee move for Gyökeres this summer?\r\n",
+    "category": "SPORTS",
+    "hashtags": [
+    "EPL"
+    ],
+    "countryCodes": [],
+    "regions": [],
+    "status": "open",
+    "resolutionDate": "2025-08-31T23:00:00.000Z",
+    "resolutionSource": null,
+    "totalVolume": 374.35
+    }
+    ],
+    "pagination": {
+    "page": 1,
+    "size": 50,
+    "totalCount": 36,
+    "lastPage": 1
+    }
+    }

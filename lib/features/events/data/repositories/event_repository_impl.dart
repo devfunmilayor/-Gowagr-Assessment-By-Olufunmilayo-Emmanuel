@@ -1,0 +1,64 @@
+import 'package:dartz/dartz.dart';
+import 'package:gowagr_assessment/core/error/app_error.dart';
+import 'package:gowagr_assessment/core/network/network_check.dart';
+import 'package:gowagr_assessment/features/events/data/datasources/event_local_data_source.dart';
+import 'package:gowagr_assessment/features/events/data/datasources/event_remote_data_source.dart';
+import 'package:injectable/injectable.dart';
+import 'package:gowagr_assessment/core/error/exceptions.dart';
+import 'package:gowagr_assessment/features/events/domain/repositories/event_repository.dart';
+
+@LazySingleton(as: EventRepository)
+class EventRepositoryImpl implements EventRepository {
+  final EventRemoteDataSource remoteDataSource;
+  final EventLocalDataSource localDataSource;
+  final NetworkInfo networkInfo;
+
+  EventRepositoryImpl({
+    required this.remoteDataSource,
+    required this.localDataSource,
+    required this.networkInfo,
+  });
+
+  @override
+  Future<Either<Failure, EventsWithPagination>> getPublicEvents({
+    String? keyword,
+    bool? trending,
+    int? size,
+    int? page,
+    String? category,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteData = await remoteDataSource.getPublicEvents(
+          keyword: keyword,
+          trending: trending,
+          size: size,
+          page: page,
+          category: category,
+        );
+        if (page == 1 || page == null) {
+          await localDataSource.cacheEvents(remoteData);
+        }
+        return Right((
+          remoteData.events.map((e) => e.toEntity()).toList(),
+          remoteData.pagination.toEntity()
+        ));
+      } on ServerException catch (e) {
+        return Left(
+            ServerFailure(message: e.message, statusCode: e.statusCode));
+      } on NetworkException catch (e) {
+        return Left(NetworkFailure(message: e.message));
+      }
+    } else {
+      try {
+        final cachedData = await localDataSource.getCachedEvents();
+        return Right((
+          cachedData.events.map((e) => e.toEntity()).toList(),
+          cachedData.pagination.toEntity()
+        ));
+      } on CacheException catch (e) {
+        return Left(CacheFailure(message: e.message));
+      }
+    }
+  }
+}
