@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:gowagr_assessment/core/constants/app_constant.dart';
 import 'package:gowagr_assessment/core/network/gowagr_http_client.dart';
 import 'package:gowagr_assessment/features/events/data/model/event_model.dart';
@@ -42,11 +43,10 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
           .map((e) => MapEntry(e.key, e.value))
           .toMap();
 
-      final response = await httpClient.get(
-        AppConstants.PUBLIC_EVENTS_ENDPOINT,
-        queryParameters: filteredParams,
-      );
+      final response = await httpClient.get(AppConstants.PUBLIC_EVENTS_ENDPOINT,
+          queryParameters: filteredParams);
 
+      log('response: ${response.body}');
       if (response.statusCode == 200) {
         return EventsApiResponse.fromJson(json.decode(response.body));
       } else {

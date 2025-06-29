@@ -1,68 +1,62 @@
+// lib/features/events/presentation/widgets/category_filter_chips.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gowagr_assessment/core/constants/app_colors.dart';
 
-class EventCategoryChip extends StatelessWidget {
-  final String label;
-  final IconData? icon;
-  final bool isSelected;
-  final VoidCallback onTap;
+class CategoryFilterChips extends StatelessWidget {
+  final List<String> categories;
+  final String selectedCategory;
+  final ValueChanged<String> onSelected;
 
-  const EventCategoryChip({
+  const CategoryFilterChips({
     super.key,
-    required this.label,
-    this.icon,
-    this.isSelected = false,
-    required this.onTap,
+    required this.categories,
+    required this.selectedCategory,
+    required this.onSelected,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isLightMode = theme.brightness == Brightness.light;
-
-    Color backgroundColor = isSelected
-        ? (isLightMode ? AppColors.primary : AppColors.primaryDark)
-        : (isLightMode ? AppColors.lightGrey : AppColors.cardColorDark);
-    Color textColor = isSelected
-        ? AppColors.white
-        : (isLightMode ? AppColors.darkGrey : AppColors.textLight);
-    Color iconColor = isSelected
-        ? AppColors.white
-        : (isLightMode ? AppColors.darkGrey : AppColors.textLight);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(20.0),
-          border: isSelected && isLightMode
-              ? Border.all(color: AppColors.primary, width: 1.0)
-              : Border.all(color: Colors.transparent, width: 1.0),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) ...[
-              Icon(
-                icon,
-                size: 16,
-                color: iconColor,
+    return Container(
+      height: 50,
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          final category = categories[index];
+          final isSelected = selectedCategory == category;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: ChoiceChip(
+              label: Text(category),
+              selected: isSelected,
+              onSelected: (selected) {
+                if (selected) {
+                  onSelected(category);
+                }
+              },
+              selectedColor: Theme.of(context).brightness == Brightness.light
+                  ? AppColors.chipBackgroundLight
+                  : AppColors.chipBackgroundDark,
+              labelStyle: GoogleFonts.archivo(
+                color: isSelected
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).textTheme.bodyLarge?.color,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
-              const SizedBox(width: 6.0),
-            ],
-            Text(
-              label,
-              style: GoogleFonts.archivo(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: textColor,
+              backgroundColor: Theme.of(context).cardColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(
+                  color: isSelected
+                      ? Theme.of(context).primaryColor
+                      : Colors.transparent,
+                ),
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

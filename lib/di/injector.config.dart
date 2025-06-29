@@ -26,6 +26,16 @@ import '../features/events/domain/repositories/event_repository.dart' as _i563;
 import '../features/events/domain/usecases/gowagr_events_usecases.dart'
     as _i249;
 import '../features/events/presentation/bloc/public_events_bloc.dart' as _i521;
+import '../features/theme/data/data_source/theme_local_data_source_impl.dart'
+    as _i83;
+import '../features/theme/data/source/theme_local_data_source.dart' as _i334;
+import '../features/theme/domain/repositories/theme_repository.dart' as _i930;
+import '../features/theme/domain/repositories/theme_repository_impl.dart'
+    as _i1055;
+import '../features/theme/domain/usecases/get_theme_mode_usecase.dart' as _i697;
+import '../features/theme/domain/usecases/toggle_theme_mode_usecase.dart'
+    as _i152;
+import '../features/theme/presentation/bloc/theme_bloc.dart' as _i606;
 import 'injector.dart' as _i811;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -42,10 +52,18 @@ extension GetItInjectableX on _i174.GetIt {
     final registerModule = _$RegisterModule();
     gh.lazySingleton<_i519.Client>(() => registerModule.httpClient);
     await gh.factoryAsync<_i986.Box<String>>(
+      () => registerModule.settingBox(),
+      instanceName: 'settingsBox',
+      preResolve: true,
+    );
+    await gh.factoryAsync<_i986.Box<String>>(
       () => registerModule.eventsBox(),
       instanceName: 'eventsBox',
       preResolve: true,
     );
+    gh.lazySingleton<_i334.ThemeLocalDataSource>(() =>
+        _i83.ThemeLocalDataSourceImpl(
+            gh<_i986.Box<String>>(instanceName: 'settingsBox')));
     gh.factory<_i665.NetworkInfo>(() => _i665.NetworkInfoImpl());
     gh.lazySingleton<_i804.IHttpClient>(
         () => _i1068.HttpClientImpl(gh<_i519.Client>()));
@@ -59,10 +77,20 @@ extension GetItInjectableX on _i174.GetIt {
           localDataSource: gh<_i820.EventLocalDataSource>(),
           networkInfo: gh<_i665.NetworkInfo>(),
         ));
-    gh.lazySingleton<_i249.GetPublicEventsUsecase>(
+    gh.lazySingleton<_i930.ThemeRepository>(
+        () => _i1055.ThemeRepositoryImpl(gh<_i334.ThemeLocalDataSource>()));
+    gh.factory<_i249.GetPublicEventsUsecase>(
         () => _i249.GetPublicEventsUsecase(gh<_i563.EventRepository>()));
     gh.factory<_i521.PublicEventBloc>(
         () => _i521.PublicEventBloc(gh<_i249.GetPublicEventsUsecase>()));
+    gh.lazySingleton<_i697.GetThemeMode>(
+        () => _i697.GetThemeMode(gh<_i930.ThemeRepository>()));
+    gh.lazySingleton<_i152.ToggleThemeMode>(
+        () => _i152.ToggleThemeMode(gh<_i930.ThemeRepository>()));
+    gh.factory<_i606.ThemeBloc>(() => _i606.ThemeBloc(
+          getThemeMode: gh<_i697.GetThemeMode>(),
+          toggleThemeMode: gh<_i152.ToggleThemeMode>(),
+        ));
     return this;
   }
 }

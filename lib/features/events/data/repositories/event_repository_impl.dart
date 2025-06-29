@@ -3,6 +3,8 @@ import 'package:gowagr_assessment/core/error/app_error.dart';
 import 'package:gowagr_assessment/core/network/network_check.dart';
 import 'package:gowagr_assessment/features/events/data/datasources/event_local_data_source.dart';
 import 'package:gowagr_assessment/features/events/data/datasources/event_remote_data_source.dart';
+import 'package:gowagr_assessment/features/events/domain/entities/event_entity.dart';
+import 'package:gowagr_assessment/features/events/domain/entities/pagination_entity.dart';
 import 'package:injectable/injectable.dart';
 import 'package:gowagr_assessment/core/error/exceptions.dart';
 import 'package:gowagr_assessment/features/events/domain/repositories/event_repository.dart';
@@ -20,13 +22,13 @@ class EventRepositoryImpl implements EventRepository {
   });
 
   @override
-  Future<Either<Failure, EventsWithPagination>> getPublicEvents({
-    String? keyword,
-    bool? trending,
-    int? size,
-    int? page,
-    String? category,
-  }) async {
+  Future<Either<Failure, (List<EventEntity>, PaginationEntity)>>
+      getPublicEvents(
+          {String? keyword,
+          bool? trending,
+          required int page,
+          required int size,
+          String? category}) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteData = await remoteDataSource.getPublicEvents(
@@ -36,7 +38,7 @@ class EventRepositoryImpl implements EventRepository {
           page: page,
           category: category,
         );
-        if (page == 1 || page == null) {
+        if (page == 1) {
           await localDataSource.cacheEvents(remoteData);
         }
         return Right((

@@ -25,4 +25,14 @@ abstract class RegisterModule {
     }
     return Hive.box<String>(AppConstants.EVENT_CACHE_BOX);
   }
+
+  @preResolve
+  @Named(AppConstants.SETTINGS_CACHE_BOX)
+  Future<Box<String>> settingBox() async {
+    if (!Hive.isBoxOpen(AppConstants.SETTINGS_CACHE_BOX)) {
+      await Hive.initFlutter();
+      return await Hive.openBox<String>(AppConstants.SETTINGS_CACHE_BOX);
+    }
+    return Hive.box<String>(AppConstants.EVENT_CACHE_BOX);
+  }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:gowagr_assessment/core/constants/app_constant.dart';
 import 'package:gowagr_assessment/core/network/gowagr_http_client.dart';
 import 'package:http/http.dart' as http;
@@ -14,10 +16,14 @@ class HttpClientImpl implements IHttpClient {
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
   }) async {
+    log('data-path: $path');
+
     final uri = Uri.parse('${AppConstants.BASE_URL}$path').replace(
       queryParameters:
           queryParameters?.map((key, value) => MapEntry(key, value.toString())),
     );
+
+    log('uri: $uri');
 
     final Map<String, String> finalHeaders = {
       'Content-Type': 'application/json',
@@ -27,6 +33,7 @@ class HttpClientImpl implements IHttpClient {
 
     try {
       final response = await _client.get(uri, headers: finalHeaders);
+      log('data-response: $response');
       return response;
     } on http.ClientException catch (e) {
       throw Exception('HTTP Client Error: ${e.message}');

@@ -4,22 +4,6 @@ import 'package:gowagr_assessment/features/events/domain/entities/pagination_ent
 
 part 'public_events_state.freezed.dart';
 
-// @freezed
-// class EventsState with _$EventsState {
-//   const factory EventsState.initial() = _Initial;
-//   const factory EventsState.loading({
-//     @Default([]) List<EventEntity> oldEvents,
-//     @Default(true) bool isFirstFetch,
-//   }) = _Loading;
-//   const factory EventsState.loaded({
-//     required List<EventEntity> events,
-//     required bool hasMore,
-//     required int currentPage,
-//   }) = _Loaded;
-//   const factory EventsState.error({required String message}) = _Error;
-//   const factory EventsState.empty() = _Empty;
-// }
-
 @freezed
 class PublicEventsState with _$PublicEventsState {
   const factory PublicEventsState.initial() = _Initial;

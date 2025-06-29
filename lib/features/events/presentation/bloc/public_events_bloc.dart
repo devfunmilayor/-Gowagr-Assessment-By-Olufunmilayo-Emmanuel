@@ -1,139 +1,128 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gowagr_assessment/core/app_theme.dart';
+import 'package:gowagr_assessment/features/theme/presentation/app_theme.dart';
 import 'package:gowagr_assessment/core/error/app_error.dart';
 import 'package:gowagr_assessment/features/events/domain/entities/pagination_entity.dart';
+import 'package:gowagr_assessment/features/events/domain/entities/event_entity.dart';
 import 'package:gowagr_assessment/features/events/domain/usecases/gowagr_events_usecases.dart';
 import 'package:injectable/injectable.dart';
-import 'package:gowagr_assessment/features/events/domain/entities/event_entity.dart';
 
 import 'public_events_event.dart';
 import 'public_events_state.dart';
 
 @injectable
 class PublicEventBloc extends Bloc<PublicEventsEvent, PublicEventsState> {
-  final GetPublicEventsUsecase getPublicEventUsecase;
+  final GetPublicEventsUsecase _getPublicEventsUsecase;
 
   List<EventEntity> allEvents = [];
-  PaginationEntity? _currentPagination;
-  String? _currentKeyword;
-  String? _currentCategory;
+  PaginationEntity? _pagination;
+  String? _keyword;
+  String? _category;
   bool _isLoadingMore = false;
-  PublicEventBloc(this.getPublicEventUsecase)
+
+  PublicEventBloc(this._getPublicEventsUsecase)
       : super(const PublicEventsState.initial()) {
-    on<PublicEventsEvent>((event, emit) async {
-      event.map(
-        toggleTheme: (e) => AppTheme.toggleTheme(),
-        loadEvents: (e) async {
-          if (e.initialLoad == true) {
-            emit(const PublicEventsState.loading());
-            allEvents = [];
-            _currentPagination = null;
-          } else {
-            state.maybeMap(
-              loaded: (loadedState) {
-                if (!_isLoadingMore) {
-                  emit(loadedState.copyWith(
-                    currentKeyword: e.keyword ?? loadedState.currentKeyword,
-                    currentCategory: e.category ?? loadedState.currentCategory,
-                  ));
-                }
-              },
-              orElse: () {
-                emit(const PublicEventsState.loading());
-              },
-            );
-          }
-
-          _currentKeyword = e.keyword;
-          _currentCategory = e.category;
-
-          await _fetchAndEmitEvents(emit, page: 1, isInitialFetch: true);
-        },
-        loadMoreEvents: (_) async {
-          if (_isLoadingMore ||
-              _currentPagination == null ||
-              _currentPagination!.page >= _currentPagination!.lastPage) {
-            return;
-          }
-          _isLoadingMore = true;
-          emit(PublicEventsState.loadingMore(
-            events: allEvents,
-            pagination: _currentPagination!,
-            currentKeyword: _currentKeyword,
-            currentCategory: _currentCategory,
-          ));
-
-          await _fetchAndEmitEvents(emit,
-              page: _currentPagination!.page + 1, isInitialFetch: false);
-          _isLoadingMore = false;
-        },
-        filterByCategory: (e) async {
-          emit(const PublicEventsState.loading());
-          _currentCategory = e.category;
-          _currentKeyword = null;
-          allEvents = [];
-          _currentPagination = null;
-          await _fetchAndEmitEvents(emit, page: 1, isInitialFetch: true);
-        },
-        searchEvents: (e) async {
-          emit(const PublicEventsState.loading());
-          _currentKeyword = e.keyword;
-          _currentCategory = null;
-          allEvents = [];
-          _currentPagination = null;
-          await _fetchAndEmitEvents(emit, page: 1, isInitialFetch: true);
-        },
-      );
-    });
+    on<PublicEventsEvent>(_handleEvent);
   }
 
-  Future<void> _fetchAndEmitEvents(Emitter<PublicEventsState> emit,
-      {required int page, required bool isInitialFetch}) async {
-    final result = await getPublicEventUsecase(GetEventsParams(
-        keyword: _currentKeyword,
-        trending: _currentCategory == 'Trending' ? true : null,
-        size: 10,
+  Future<void> _handleEvent(
+    PublicEventsEvent event,
+    Emitter<PublicEventsState> emit,
+  ) async {
+    await event.map(
+      toggleTheme: (_) async => AppTheme.toggleTheme(),
+      loadEvents: (e) async => await loadEvents(e, emit),
+      loadMoreEvents: (_) async => await _loadMoreEvents(emit),
+      filterByCategory: (e) async =>
+          await _applyFilter(category: e.category, emit: emit),
+      searchEvents: (e) async =>
+          await _applyFilter(keyword: e.keyword, emit: emit),
+    );
+  }
+
+  loadEvents(PublicEventsEvent event, Emitter<PublicEventsState> emit) async {
+    return event.maybeMap(
+      loadEvents: (e) async {
+        final isInitialLoad = e.initialLoad ?? false;
+
+        if (isInitialLoad) {
+          _resetState(e.keyword, e.category);
+          if (!emit.isDone) emit(const PublicEventsState.loading());
+        } else {
+          _keyword = e.keyword;
+          _category = e.category;
+        }
+
+        await _fetchAndEmit(emit, page: 1, isInitialFetch: true);
+      },
+      orElse: () async {},
+    );
+  }
+
+  Future<void> _loadMoreEvents(Emitter<PublicEventsState> emit) async {
+    if (_isLoadingMore ||
+        _pagination == null ||
+        _pagination!.page >= _pagination!.lastPage) {
+      return;
+    }
+
+    _isLoadingMore = true;
+
+    if (!emit.isDone) {
+      emit(PublicEventsState.loadingMore(
+        events: allEvents,
+        pagination: _pagination!,
+        currentKeyword: _keyword,
+        currentCategory: _category,
+      ));
+    }
+
+    await _fetchAndEmit(emit,
+        page: _pagination!.page + 1, isInitialFetch: false);
+    _isLoadingMore = false;
+  }
+
+  Future<void> _applyFilter({
+    String? keyword,
+    String? category,
+    required Emitter<PublicEventsState> emit,
+  }) async {
+    _resetState(keyword, category);
+
+    if (!emit.isDone) emit(const PublicEventsState.loading());
+    await _fetchAndEmit(emit, page: 1, isInitialFetch: true);
+  }
+
+  void _resetState(String? keyword, String? category) {
+    _keyword = keyword;
+    _category = category;
+    allEvents = [];
+    _pagination = null;
+  }
+
+  Future<void> _fetchAndEmit(
+    Emitter<PublicEventsState> emit, {
+    required int page,
+    required bool isInitialFetch,
+  }) async {
+    final result = await _getPublicEventsUsecase(
+      GetEventsParams(
+        keyword: _keyword,
+        trending: _category == 'Trending' ? true : null,
+        category: _category == 'Trending' ? null : _category,
         page: page,
-        category: _currentCategory == 'Trending' ? null : _currentCategory));
+        size: 10,
+      ),
+    );
+
+    if (emit.isDone) return;
 
     result.fold(
-      (failure) {
-        if (failure is CacheFailure && allEvents.isNotEmpty) {
-          state.maybeMap(
-            loaded: (loadedState) {
-              emit(loadedState.copyWith());
-            },
-            orElse: () {
-              emit(PublicEventsState.error(_mapFailureToMessage(failure)));
-            },
-          );
-        } else if (isInitialFetch) {
-          emit(PublicEventsState.error(_mapFailureToMessage(failure)));
-        } else {
-          state.maybeMap(
-            loaded: (loadedState) {
-              emit(loadedState.copyWith());
-            },
-            loadingMore: (_) {
-              if (allEvents.isNotEmpty) {
-                emit(PublicEventsState.loaded(
-                    events: allEvents,
-                    pagination: _currentPagination!,
-                    currentKeyword: _currentKeyword,
-                    currentCategory: _currentCategory));
-              } else {
-                emit(PublicEventsState.error(_mapFailureToMessage(failure)));
-              }
-            },
-            orElse: () {
-              emit(PublicEventsState.error(_mapFailureToMessage(failure)));
-            },
-          );
-        }
-      },
-      (eventsWithPagination) {
-        final newEvents = eventsWithPagination.$1;
-        _currentPagination = eventsWithPagination.$2;
+      (failure) => _handleFailure(failure, emit, isInitialFetch),
+      (data) {
+        final newEvents = data.$1;
+        _pagination = data.$2;
 
         if (page == 1) {
           allEvents = newEvents;
@@ -146,27 +135,69 @@ class PublicEventBloc extends Bloc<PublicEventsEvent, PublicEventsState> {
         } else {
           emit(PublicEventsState.loaded(
             events: allEvents,
-            pagination: _currentPagination!,
-            currentKeyword: _currentKeyword,
-            currentCategory: _currentCategory,
+            pagination: _pagination!,
+            currentKeyword: _keyword,
+            currentCategory: _category,
           ));
         }
       },
     );
   }
 
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case const (ServerFailure):
-        return failure.message == "No internet connection or timeout"
-            ? "No internet connection"
-            : "Server Error: ${failure.message}";
-      case const (CacheFailure):
-        return 'Cache Error: ${failure.message}';
-      case const (NetworkFailure):
-        return 'Network Error: ${failure.message}';
-      default:
-        return 'Unexpected Error';
+  void _handleFailure(
+    Failure failure,
+    Emitter<PublicEventsState> emit,
+    bool isInitialFetch,
+  ) {
+    final message = _mapFailureToMessage(failure);
+
+    log('message: ${message}');
+
+    if (failure is CacheFailure && allEvents.isNotEmpty) {
+      _emitCachedState(emit);
+    } else if (isInitialFetch) {
+      emit(PublicEventsState.error(message));
+    } else {
+      _emitFallbackOrError(message, emit);
     }
+  }
+
+  void _emitCachedState(Emitter<PublicEventsState> emit) {
+    state.maybeMap(
+      loaded: (loaded) => emit(loaded.copyWith()),
+      orElse: () => emit(
+          const PublicEventsState.error("No internet. Showing cached data.")),
+    );
+  }
+
+  void _emitFallbackOrError(String message, Emitter<PublicEventsState> emit) {
+    state.maybeMap(
+      loaded: (loaded) => emit(loaded.copyWith()),
+      loadingMore: (_) {
+        if (allEvents.isNotEmpty) {
+          emit(PublicEventsState.loaded(
+            events: allEvents,
+            pagination: _pagination!,
+            currentKeyword: _keyword,
+            currentCategory: _category,
+          ));
+        } else {
+          emit(PublicEventsState.error(message));
+        }
+      },
+      orElse: () => emit(PublicEventsState.error(message)),
+    );
+  }
+
+  String _mapFailureToMessage(Failure failure) {
+    return switch (failure) {
+      ServerFailure(message: final msg) =>
+        msg == 'No internet connection or timeout'
+            ? 'No internet connection'
+            : 'Server Error: $msg',
+      CacheFailure(message: final msg) => 'Cache Error: $msg',
+      NetworkFailure(message: final msg) => 'Network Error: $msg',
+      _ => 'Unexpected error occurred.',
+    };
   }
 }
