@@ -1,4 +1,6 @@
 // lib/features/theme/presentation/bloc/theme_bloc.dart
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gowagr_assessment/features/theme/domain/usecases/get_theme_mode_usecase.dart';
@@ -30,7 +32,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       final initialMode = await _getThemeMode();
       emit(state.copyWith(themeMode: initialMode));
     } catch (e) {
-      print('Error loading theme: $e');
+      log('Error loading theme: $e');
       emit(state.copyWith(themeMode: ThemeMode.light));
     }
   }
@@ -43,7 +45,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       final newMode = await _toggleThemeMode(state.themeMode);
       emit(state.copyWith(themeMode: newMode));
     } catch (e) {
-      print('Error toggling theme: $e');
+      log('Error toggling theme: $e');
     }
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gowagr_assessment/features/theme/presentation/app_theme.dart';
 import 'package:gowagr_assessment/core/error/app_error.dart';
@@ -150,9 +148,6 @@ class PublicEventBloc extends Bloc<PublicEventsEvent, PublicEventsState> {
     bool isInitialFetch,
   ) {
     final message = _mapFailureToMessage(failure);
-
-    log('message: ${message}');
-
     if (failure is CacheFailure && allEvents.isNotEmpty) {
       _emitCachedState(emit);
     } else if (isInitialFetch) {
@@ -194,10 +189,10 @@ class PublicEventBloc extends Bloc<PublicEventsEvent, PublicEventsState> {
       ServerFailure(message: final msg) =>
         msg == 'No internet connection or timeout'
             ? 'No internet connection'
-            : 'Server Error: $msg',
-      CacheFailure(message: final msg) => 'Cache Error: $msg',
-      NetworkFailure(message: final msg) => 'Network Error: $msg',
-      _ => 'Unexpected error occurred.',
+            : msg,
+      CacheFailure(message: final msg) => msg,
+      NetworkFailure(message: final msg) => msg,
+      _ => 'Unexpected error occurred.'
     };
   }
 }

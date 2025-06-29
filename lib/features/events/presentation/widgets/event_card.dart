@@ -32,7 +32,9 @@ class EventCard extends StatelessWidget {
         (market?.volumeValueYes ?? 0) + (market?.volumeValueNo ?? 0).toInt();
 
     final String formattedEndDate =
-        DateFormat('MMM dd, yyyy').format(event.resolutionDate);
+        event.resolutionDate != null
+            ? DateFormat('MMM dd, yyyy').format(event.resolutionDate!)
+            : 'Unknown';
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

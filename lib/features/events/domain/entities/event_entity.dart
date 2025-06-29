@@ -8,7 +8,7 @@ part 'event_entity.freezed.dart';
 class EventEntity with _$EventEntity, EquatableMixin {
   const EventEntity._();
   const factory EventEntity({
-    required DateTime createdAt,
+    DateTime? createdAt,
     required List<MarketEntity> markets,
     DateTime? resolvedAt,
     String? imageUrl,
@@ -22,7 +22,7 @@ class EventEntity with _$EventEntity, EquatableMixin {
     required List<String> countryCodes,
     required List<String> regions,
     required String status,
-    required DateTime resolutionDate,
+    DateTime? resolutionDate,
     String? resolutionSource,
     required double totalVolume,
   }) = _EventEntity;

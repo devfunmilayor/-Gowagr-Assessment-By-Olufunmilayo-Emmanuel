@@ -20,23 +20,29 @@ MarketModel _$MarketModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MarketModel {
-  String get id => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get rules => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError; // Made nullable
+  String? get title => throw _privateConstructorUsedError; // Made nullable
+  String? get rules => throw _privateConstructorUsedError; // Made nullable
   @JsonKey(name: 'imageUrl')
   String? get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'image128Url')
   String? get image128Url => throw _privateConstructorUsedError;
-  double get yesBuyPrice => throw _privateConstructorUsedError;
-  double get noBuyPrice => throw _privateConstructorUsedError;
-  int get yesPriceForEstimate => throw _privateConstructorUsedError;
-  int get noPriceForEstimate => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  double? get yesBuyPrice =>
+      throw _privateConstructorUsedError; // Made nullable
+  double? get noBuyPrice => throw _privateConstructorUsedError; // Made nullable
+  int? get yesPriceForEstimate =>
+      throw _privateConstructorUsedError; // Made nullable
+  int? get noPriceForEstimate =>
+      throw _privateConstructorUsedError; // Made nullable
+  String? get status => throw _privateConstructorUsedError; // Made nullable
   String? get resolvedOutcome => throw _privateConstructorUsedError;
-  double get volumeValueYes => throw _privateConstructorUsedError;
-  double get volumeValueNo => throw _privateConstructorUsedError;
-  int get yesProfitForEstimate => throw _privateConstructorUsedError;
-  int get noProfitForEstimate => throw _privateConstructorUsedError;
+  double? get volumeValueYes =>
+      throw _privateConstructorUsedError; // Made nullable
+  double? get volumeValueNo =>
+      throw _privateConstructorUsedError; // Made nullable
+  int? get yesProfitForEstimate =>
+      throw _privateConstructorUsedError; // Made nullable
+  int? get noProfitForEstimate => throw _privateConstructorUsedError;
 
   /// Serializes this MarketModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,21 +61,21 @@ abstract class $MarketModelCopyWith<$Res> {
       _$MarketModelCopyWithImpl<$Res, MarketModel>;
   @useResult
   $Res call(
-      {String id,
-      String title,
-      String rules,
+      {String? id,
+      String? title,
+      String? rules,
       @JsonKey(name: 'imageUrl') String? imageUrl,
       @JsonKey(name: 'image128Url') String? image128Url,
-      double yesBuyPrice,
-      double noBuyPrice,
-      int yesPriceForEstimate,
-      int noPriceForEstimate,
-      String status,
+      double? yesBuyPrice,
+      double? noBuyPrice,
+      int? yesPriceForEstimate,
+      int? noPriceForEstimate,
+      String? status,
       String? resolvedOutcome,
-      double volumeValueYes,
-      double volumeValueNo,
-      int yesProfitForEstimate,
-      int noProfitForEstimate});
+      double? volumeValueYes,
+      double? volumeValueNo,
+      int? yesProfitForEstimate,
+      int? noProfitForEstimate});
 }
 
 /// @nodoc
@@ -87,35 +93,35 @@ class _$MarketModelCopyWithImpl<$Res, $Val extends MarketModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? rules = null,
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? rules = freezed,
     Object? imageUrl = freezed,
     Object? image128Url = freezed,
-    Object? yesBuyPrice = null,
-    Object? noBuyPrice = null,
-    Object? yesPriceForEstimate = null,
-    Object? noPriceForEstimate = null,
-    Object? status = null,
+    Object? yesBuyPrice = freezed,
+    Object? noBuyPrice = freezed,
+    Object? yesPriceForEstimate = freezed,
+    Object? noPriceForEstimate = freezed,
+    Object? status = freezed,
     Object? resolvedOutcome = freezed,
-    Object? volumeValueYes = null,
-    Object? volumeValueNo = null,
-    Object? yesProfitForEstimate = null,
-    Object? noProfitForEstimate = null,
+    Object? volumeValueYes = freezed,
+    Object? volumeValueNo = freezed,
+    Object? yesProfitForEstimate = freezed,
+    Object? noProfitForEstimate = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      rules: null == rules
+              as String?,
+      rules: freezed == rules
           ? _value.rules
           : rules // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -124,46 +130,46 @@ class _$MarketModelCopyWithImpl<$Res, $Val extends MarketModel>
           ? _value.image128Url
           : image128Url // ignore: cast_nullable_to_non_nullable
               as String?,
-      yesBuyPrice: null == yesBuyPrice
+      yesBuyPrice: freezed == yesBuyPrice
           ? _value.yesBuyPrice
           : yesBuyPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      noBuyPrice: null == noBuyPrice
+              as double?,
+      noBuyPrice: freezed == noBuyPrice
           ? _value.noBuyPrice
           : noBuyPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      yesPriceForEstimate: null == yesPriceForEstimate
+              as double?,
+      yesPriceForEstimate: freezed == yesPriceForEstimate
           ? _value.yesPriceForEstimate
           : yesPriceForEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-      noPriceForEstimate: null == noPriceForEstimate
+              as int?,
+      noPriceForEstimate: freezed == noPriceForEstimate
           ? _value.noPriceForEstimate
           : noPriceForEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-      status: null == status
+              as int?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       resolvedOutcome: freezed == resolvedOutcome
           ? _value.resolvedOutcome
           : resolvedOutcome // ignore: cast_nullable_to_non_nullable
               as String?,
-      volumeValueYes: null == volumeValueYes
+      volumeValueYes: freezed == volumeValueYes
           ? _value.volumeValueYes
           : volumeValueYes // ignore: cast_nullable_to_non_nullable
-              as double,
-      volumeValueNo: null == volumeValueNo
+              as double?,
+      volumeValueNo: freezed == volumeValueNo
           ? _value.volumeValueNo
           : volumeValueNo // ignore: cast_nullable_to_non_nullable
-              as double,
-      yesProfitForEstimate: null == yesProfitForEstimate
+              as double?,
+      yesProfitForEstimate: freezed == yesProfitForEstimate
           ? _value.yesProfitForEstimate
           : yesProfitForEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-      noProfitForEstimate: null == noProfitForEstimate
+              as int?,
+      noProfitForEstimate: freezed == noProfitForEstimate
           ? _value.noProfitForEstimate
           : noProfitForEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ) as $Val);
   }
 }
@@ -177,21 +183,21 @@ abstract class _$$MarketModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      String title,
-      String rules,
+      {String? id,
+      String? title,
+      String? rules,
       @JsonKey(name: 'imageUrl') String? imageUrl,
       @JsonKey(name: 'image128Url') String? image128Url,
-      double yesBuyPrice,
-      double noBuyPrice,
-      int yesPriceForEstimate,
-      int noPriceForEstimate,
-      String status,
+      double? yesBuyPrice,
+      double? noBuyPrice,
+      int? yesPriceForEstimate,
+      int? noPriceForEstimate,
+      String? status,
       String? resolvedOutcome,
-      double volumeValueYes,
-      double volumeValueNo,
-      int yesProfitForEstimate,
-      int noProfitForEstimate});
+      double? volumeValueYes,
+      double? volumeValueNo,
+      int? yesProfitForEstimate,
+      int? noProfitForEstimate});
 }
 
 /// @nodoc
@@ -207,35 +213,35 @@ class __$$MarketModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? rules = null,
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? rules = freezed,
     Object? imageUrl = freezed,
     Object? image128Url = freezed,
-    Object? yesBuyPrice = null,
-    Object? noBuyPrice = null,
-    Object? yesPriceForEstimate = null,
-    Object? noPriceForEstimate = null,
-    Object? status = null,
+    Object? yesBuyPrice = freezed,
+    Object? noBuyPrice = freezed,
+    Object? yesPriceForEstimate = freezed,
+    Object? noPriceForEstimate = freezed,
+    Object? status = freezed,
     Object? resolvedOutcome = freezed,
-    Object? volumeValueYes = null,
-    Object? volumeValueNo = null,
-    Object? yesProfitForEstimate = null,
-    Object? noProfitForEstimate = null,
+    Object? volumeValueYes = freezed,
+    Object? volumeValueNo = freezed,
+    Object? yesProfitForEstimate = freezed,
+    Object? noProfitForEstimate = freezed,
   }) {
     return _then(_$MarketModelImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      rules: null == rules
+              as String?,
+      rules: freezed == rules
           ? _value.rules
           : rules // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -244,46 +250,46 @@ class __$$MarketModelImplCopyWithImpl<$Res>
           ? _value.image128Url
           : image128Url // ignore: cast_nullable_to_non_nullable
               as String?,
-      yesBuyPrice: null == yesBuyPrice
+      yesBuyPrice: freezed == yesBuyPrice
           ? _value.yesBuyPrice
           : yesBuyPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      noBuyPrice: null == noBuyPrice
+              as double?,
+      noBuyPrice: freezed == noBuyPrice
           ? _value.noBuyPrice
           : noBuyPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      yesPriceForEstimate: null == yesPriceForEstimate
+              as double?,
+      yesPriceForEstimate: freezed == yesPriceForEstimate
           ? _value.yesPriceForEstimate
           : yesPriceForEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-      noPriceForEstimate: null == noPriceForEstimate
+              as int?,
+      noPriceForEstimate: freezed == noPriceForEstimate
           ? _value.noPriceForEstimate
           : noPriceForEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-      status: null == status
+              as int?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       resolvedOutcome: freezed == resolvedOutcome
           ? _value.resolvedOutcome
           : resolvedOutcome // ignore: cast_nullable_to_non_nullable
               as String?,
-      volumeValueYes: null == volumeValueYes
+      volumeValueYes: freezed == volumeValueYes
           ? _value.volumeValueYes
           : volumeValueYes // ignore: cast_nullable_to_non_nullable
-              as double,
-      volumeValueNo: null == volumeValueNo
+              as double?,
+      volumeValueNo: freezed == volumeValueNo
           ? _value.volumeValueNo
           : volumeValueNo // ignore: cast_nullable_to_non_nullable
-              as double,
-      yesProfitForEstimate: null == yesProfitForEstimate
+              as double?,
+      yesProfitForEstimate: freezed == yesProfitForEstimate
           ? _value.yesProfitForEstimate
           : yesProfitForEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
-      noProfitForEstimate: null == noProfitForEstimate
+              as int?,
+      noProfitForEstimate: freezed == noProfitForEstimate
           ? _value.noProfitForEstimate
           : noProfitForEstimate // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -292,32 +298,35 @@ class __$$MarketModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MarketModelImpl extends _MarketModel {
   const _$MarketModelImpl(
-      {required this.id,
-      required this.title,
-      required this.rules,
+      {this.id,
+      this.title,
+      this.rules,
       @JsonKey(name: 'imageUrl') this.imageUrl,
       @JsonKey(name: 'image128Url') this.image128Url,
-      required this.yesBuyPrice,
-      required this.noBuyPrice,
-      required this.yesPriceForEstimate,
-      required this.noPriceForEstimate,
-      required this.status,
+      this.yesBuyPrice,
+      this.noBuyPrice,
+      this.yesPriceForEstimate,
+      this.noPriceForEstimate,
+      this.status,
       this.resolvedOutcome,
-      required this.volumeValueYes,
-      required this.volumeValueNo,
-      required this.yesProfitForEstimate,
-      required this.noProfitForEstimate})
+      this.volumeValueYes,
+      this.volumeValueNo,
+      this.yesProfitForEstimate,
+      this.noProfitForEstimate})
       : super._();
 
   factory _$MarketModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MarketModelImplFromJson(json);
 
   @override
-  final String id;
+  final String? id;
+// Made nullable
   @override
-  final String title;
+  final String? title;
+// Made nullable
   @override
-  final String rules;
+  final String? rules;
+// Made nullable
   @override
   @JsonKey(name: 'imageUrl')
   final String? imageUrl;
@@ -325,25 +334,33 @@ class _$MarketModelImpl extends _MarketModel {
   @JsonKey(name: 'image128Url')
   final String? image128Url;
   @override
-  final double yesBuyPrice;
+  final double? yesBuyPrice;
+// Made nullable
   @override
-  final double noBuyPrice;
+  final double? noBuyPrice;
+// Made nullable
   @override
-  final int yesPriceForEstimate;
+  final int? yesPriceForEstimate;
+// Made nullable
   @override
-  final int noPriceForEstimate;
+  final int? noPriceForEstimate;
+// Made nullable
   @override
-  final String status;
+  final String? status;
+// Made nullable
   @override
   final String? resolvedOutcome;
   @override
-  final double volumeValueYes;
+  final double? volumeValueYes;
+// Made nullable
   @override
-  final double volumeValueNo;
+  final double? volumeValueNo;
+// Made nullable
   @override
-  final int yesProfitForEstimate;
+  final int? yesProfitForEstimate;
+// Made nullable
   @override
-  final int noProfitForEstimate;
+  final int? noProfitForEstimate;
 
   @override
   String toString() {
@@ -421,32 +438,32 @@ class _$MarketModelImpl extends _MarketModel {
 
 abstract class _MarketModel extends MarketModel {
   const factory _MarketModel(
-      {required final String id,
-      required final String title,
-      required final String rules,
+      {final String? id,
+      final String? title,
+      final String? rules,
       @JsonKey(name: 'imageUrl') final String? imageUrl,
       @JsonKey(name: 'image128Url') final String? image128Url,
-      required final double yesBuyPrice,
-      required final double noBuyPrice,
-      required final int yesPriceForEstimate,
-      required final int noPriceForEstimate,
-      required final String status,
+      final double? yesBuyPrice,
+      final double? noBuyPrice,
+      final int? yesPriceForEstimate,
+      final int? noPriceForEstimate,
+      final String? status,
       final String? resolvedOutcome,
-      required final double volumeValueYes,
-      required final double volumeValueNo,
-      required final int yesProfitForEstimate,
-      required final int noProfitForEstimate}) = _$MarketModelImpl;
+      final double? volumeValueYes,
+      final double? volumeValueNo,
+      final int? yesProfitForEstimate,
+      final int? noProfitForEstimate}) = _$MarketModelImpl;
   const _MarketModel._() : super._();
 
   factory _MarketModel.fromJson(Map<String, dynamic> json) =
       _$MarketModelImpl.fromJson;
 
   @override
-  String get id;
+  String? get id; // Made nullable
   @override
-  String get title;
+  String? get title; // Made nullable
   @override
-  String get rules;
+  String? get rules; // Made nullable
   @override
   @JsonKey(name: 'imageUrl')
   String? get imageUrl;
@@ -454,25 +471,25 @@ abstract class _MarketModel extends MarketModel {
   @JsonKey(name: 'image128Url')
   String? get image128Url;
   @override
-  double get yesBuyPrice;
+  double? get yesBuyPrice; // Made nullable
   @override
-  double get noBuyPrice;
+  double? get noBuyPrice; // Made nullable
   @override
-  int get yesPriceForEstimate;
+  int? get yesPriceForEstimate; // Made nullable
   @override
-  int get noPriceForEstimate;
+  int? get noPriceForEstimate; // Made nullable
   @override
-  String get status;
+  String? get status; // Made nullable
   @override
   String? get resolvedOutcome;
   @override
-  double get volumeValueYes;
+  double? get volumeValueYes; // Made nullable
   @override
-  double get volumeValueNo;
+  double? get volumeValueNo; // Made nullable
   @override
-  int get yesProfitForEstimate;
+  int? get yesProfitForEstimate; // Made nullable
   @override
-  int get noProfitForEstimate;
+  int? get noProfitForEstimate;
 
   /// Create a copy of MarketModel
   /// with the given fields replaced by the non-null parameter values.

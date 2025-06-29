@@ -6,23 +6,23 @@ part 'market_model.g.dart';
 
 @freezed
 class MarketModel with _$MarketModel {
-  const MarketModel._(); // Private constructor for custom methods
+  const MarketModel._();
   const factory MarketModel({
-    required String id,
-    required String title,
-    required String rules,
+    String? id,
+    String? title,
+    String? rules,
     @JsonKey(name: 'imageUrl') String? imageUrl,
     @JsonKey(name: 'image128Url') String? image128Url,
-    required double yesBuyPrice,
-    required double noBuyPrice,
-    required int yesPriceForEstimate,
-    required int noPriceForEstimate,
-    required String status,
+    double? yesBuyPrice,
+    double? noBuyPrice,
+    int? yesPriceForEstimate,
+    int? noPriceForEstimate,
+    String? status,
     String? resolvedOutcome,
-    required double volumeValueYes,
-    required double volumeValueNo,
-    required int yesProfitForEstimate,
-    required int noProfitForEstimate,
+    double? volumeValueYes,
+    double? volumeValueNo,
+    int? yesProfitForEstimate,
+    int? noProfitForEstimate,
   }) = _MarketModel;
 
   factory MarketModel.fromJson(Map<String, dynamic> json) =>
@@ -30,21 +30,21 @@ class MarketModel with _$MarketModel {
 
   MarketEntity toEntity() {
     return MarketEntity(
-      id: id,
-      title: title,
-      rules: rules,
+      id: id ?? '',
+      title: title ?? 'N/A',
+      rules: rules ?? 'No rules provided',
       imageUrl: imageUrl,
       image128Url: image128Url,
-      yesBuyPrice: yesBuyPrice,
-      noBuyPrice: noBuyPrice,
-      yesPriceForEstimate: yesPriceForEstimate,
-      noPriceForEstimate: noPriceForEstimate,
-      status: status,
+      yesBuyPrice: yesBuyPrice ?? 0.0,
+      noBuyPrice: noBuyPrice ?? 0.0,
+      yesPriceForEstimate: yesPriceForEstimate ?? 0,
+      noPriceForEstimate: noPriceForEstimate ?? 0,
+      status: status ?? 'UNKNOWN',
       resolvedOutcome: resolvedOutcome,
-      volumeValueYes: volumeValueYes,
-      volumeValueNo: volumeValueNo,
-      yesProfitForEstimate: yesProfitForEstimate,
-      noProfitForEstimate: noProfitForEstimate,
+      volumeValueYes: volumeValueYes ?? 0.0,
+      volumeValueNo: volumeValueNo ?? 0.0,
+      yesProfitForEstimate: yesProfitForEstimate ?? 0,
+      noProfitForEstimate: noProfitForEstimate ?? 0,
     );
   }
 }

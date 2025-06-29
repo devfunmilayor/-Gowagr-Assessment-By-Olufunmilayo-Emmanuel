@@ -8,7 +8,7 @@ part of 'event_model.dart';
 
 _$EventModelImpl _$$EventModelImplFromJson(Map<String, dynamic> json) =>
     _$EventModelImpl(
-      createdAt: json['createdAt'] as String,
+      createdAt: json['createdAt'] as String?,
       markets: (json['markets'] as List<dynamic>)
           .map((e) => MarketModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19,18 +19,19 @@ _$EventModelImpl _$$EventModelImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       type: json['type'] as String,
       description: json['description'] as String?,
-      category: json['category'] as String,
-      hashtags:
-          (json['hashtags'] as List<dynamic>).map((e) => e as String).toList(),
-      countryCodes: (json['countryCodes'] as List<dynamic>)
-          .map((e) => e as String)
+      category: json['category'] as String?,
+      hashtags: (json['hashtags'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      countryCodes: (json['countryCodes'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
       regions:
-          (json['regions'] as List<dynamic>).map((e) => e as String).toList(),
-      status: json['status'] as String,
-      resolutionDate: json['resolutionDate'] as String,
+          (json['regions'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      status: json['status'] as String?,
+      resolutionDate: json['resolutionDate'] as String?,
       resolutionSource: json['resolutionSource'] as String?,
-      totalVolume: (json['totalVolume'] as num).toDouble(),
+      totalVolume: (json['totalVolume'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$EventModelImplToJson(_$EventModelImpl instance) =>
@@ -57,11 +58,13 @@ Map<String, dynamic> _$$EventModelImplToJson(_$EventModelImpl instance) =>
 _$EventsApiResponseImpl _$$EventsApiResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$EventsApiResponseImpl(
-      events: (json['events'] as List<dynamic>)
-          .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
+      events: (json['events'] as List<dynamic>?)
+          ?.map((e) => EventModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pagination:
-          PaginationModel.fromJson(json['pagination'] as Map<String, dynamic>),
+      pagination: json['pagination'] == null
+          ? null
+          : PaginationModel.fromJson(
+              json['pagination'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$EventsApiResponseImplToJson(

@@ -41,10 +41,14 @@ class EventRepositoryImpl implements EventRepository {
         if (page == 1) {
           await localDataSource.cacheEvents(remoteData);
         }
-        return Right((
-          remoteData.events.map((e) => e.toEntity()).toList(),
-          remoteData.pagination.toEntity()
-        ));
+        if (remoteData.events != null && remoteData.pagination != null) {
+          return Right((
+            remoteData.events!.map((e) => e.toEntity()).toList(),
+            remoteData.pagination!.toEntity()
+          ));
+        } else {
+          return Left(ServerFailure(message: 'No events or pagination data found', statusCode: null));
+        }
       } on ServerException catch (e) {
         return Left(
             ServerFailure(message: e.message, statusCode: e.statusCode));
@@ -54,10 +58,14 @@ class EventRepositoryImpl implements EventRepository {
     } else {
       try {
         final cachedData = await localDataSource.getCachedEvents();
-        return Right((
-          cachedData.events.map((e) => e.toEntity()).toList(),
-          cachedData.pagination.toEntity()
-        ));
+        if (cachedData.events != null && cachedData.pagination != null) {
+          return Right((
+            cachedData.events!.map((e) => e.toEntity()).toList(),
+            cachedData.pagination!.toEntity()
+          ));
+        } else {
+          return Left(CacheFailure(message: 'No cached events or pagination data found'));
+        }
       } on CacheException catch (e) {
         return Left(CacheFailure(message: e.message));
       }

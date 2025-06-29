@@ -9,47 +9,50 @@ part 'event_model.g.dart';
 @freezed
 class EventModel with _$EventModel {
   const EventModel._();
-  const factory EventModel(
-      {required String createdAt,
-      required List<MarketModel> markets,
-      String? resolvedAt,
-      @JsonKey(name: 'imageUrl') String? imageUrl,
-      @JsonKey(name: 'image128Url') String? image128Url,
-      required String id,
-      required String title,
-      required String type,
-      String? description,
-      required String category,
-      required List<String> hashtags,
-      required List<String> countryCodes,
-      required List<String> regions,
-      required String status,
-      required String resolutionDate,
-      String? resolutionSource,
-      required double totalVolume}) = _EventModel;
+
+  const factory EventModel({
+    @JsonKey(name: 'createdAt') String? createdAt,
+    required List<MarketModel> markets,
+    String? resolvedAt,
+    @JsonKey(name: 'imageUrl') String? imageUrl,
+    @JsonKey(name: 'image128Url') String? image128Url,
+    required String id,
+    required String title,
+    required String type,
+    String? description,
+    String? category,
+    List<String>? hashtags,
+    List<String>? countryCodes,
+    List<String>? regions,
+    String? status,
+    @JsonKey(name: 'resolutionDate') String? resolutionDate,
+    String? resolutionSource,
+    double? totalVolume,
+  }) = _EventModel;
 
   factory EventModel.fromJson(Map<String, dynamic> json) =>
       _$EventModelFromJson(json);
 
   EventEntity toEntity() {
     return EventEntity(
-      createdAt: DateTime.parse(createdAt),
+      createdAt: createdAt != null ? DateTime.tryParse(createdAt!) : null,
       markets: markets.map((m) => m.toEntity()).toList(),
-      resolvedAt: resolvedAt != null ? DateTime.parse(resolvedAt!) : null,
+      resolvedAt: resolvedAt != null ? DateTime.tryParse(resolvedAt!) : null,
       imageUrl: imageUrl,
       image128Url: image128Url,
       id: id,
       title: title,
       type: type,
       description: description,
-      category: category,
-      hashtags: hashtags,
-      countryCodes: countryCodes,
-      regions: regions,
-      status: status,
-      resolutionDate: DateTime.parse(resolutionDate),
+      category: category ?? 'Unknown',
+      hashtags: hashtags ?? [],
+      countryCodes: countryCodes ?? [],
+      regions: regions ?? [],
+      status: status ?? 'Unknown',
+      resolutionDate:
+          resolutionDate != null ? DateTime.tryParse(resolutionDate!) : null,
       resolutionSource: resolutionSource,
-      totalVolume: totalVolume,
+      totalVolume: totalVolume ?? 0.0,
     );
   }
 }
@@ -57,8 +60,8 @@ class EventModel with _$EventModel {
 @freezed
 class EventsApiResponse with _$EventsApiResponse {
   const factory EventsApiResponse({
-    required List<EventModel> events,
-    required PaginationModel pagination,
+    List<EventModel>? events,
+    PaginationModel? pagination,
   }) = _EventsApiResponse;
 
   factory EventsApiResponse.fromJson(Map<String, dynamic> json) =>

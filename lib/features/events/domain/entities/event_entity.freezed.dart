@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$EventEntity {
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   List<MarketEntity> get markets => throw _privateConstructorUsedError;
   DateTime? get resolvedAt => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
@@ -30,7 +30,8 @@ mixin _$EventEntity {
   List<String> get countryCodes => throw _privateConstructorUsedError;
   List<String> get regions => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
-  DateTime get resolutionDate => throw _privateConstructorUsedError;
+  DateTime? get resolutionDate =>
+      throw _privateConstructorUsedError; // Made nullable
   String? get resolutionSource => throw _privateConstructorUsedError;
   double get totalVolume => throw _privateConstructorUsedError;
 
@@ -48,7 +49,7 @@ abstract class $EventEntityCopyWith<$Res> {
       _$EventEntityCopyWithImpl<$Res, EventEntity>;
   @useResult
   $Res call(
-      {DateTime createdAt,
+      {DateTime? createdAt,
       List<MarketEntity> markets,
       DateTime? resolvedAt,
       String? imageUrl,
@@ -62,7 +63,7 @@ abstract class $EventEntityCopyWith<$Res> {
       List<String> countryCodes,
       List<String> regions,
       String status,
-      DateTime resolutionDate,
+      DateTime? resolutionDate,
       String? resolutionSource,
       double totalVolume});
 }
@@ -82,7 +83,7 @@ class _$EventEntityCopyWithImpl<$Res, $Val extends EventEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createdAt = null,
+    Object? createdAt = freezed,
     Object? markets = null,
     Object? resolvedAt = freezed,
     Object? imageUrl = freezed,
@@ -96,15 +97,15 @@ class _$EventEntityCopyWithImpl<$Res, $Val extends EventEntity>
     Object? countryCodes = null,
     Object? regions = null,
     Object? status = null,
-    Object? resolutionDate = null,
+    Object? resolutionDate = freezed,
     Object? resolutionSource = freezed,
     Object? totalVolume = null,
   }) {
     return _then(_value.copyWith(
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       markets: null == markets
           ? _value.markets
           : markets // ignore: cast_nullable_to_non_nullable
@@ -157,10 +158,10 @@ class _$EventEntityCopyWithImpl<$Res, $Val extends EventEntity>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      resolutionDate: null == resolutionDate
+      resolutionDate: freezed == resolutionDate
           ? _value.resolutionDate
           : resolutionDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       resolutionSource: freezed == resolutionSource
           ? _value.resolutionSource
           : resolutionSource // ignore: cast_nullable_to_non_nullable
@@ -182,7 +183,7 @@ abstract class _$$EventEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DateTime createdAt,
+      {DateTime? createdAt,
       List<MarketEntity> markets,
       DateTime? resolvedAt,
       String? imageUrl,
@@ -196,7 +197,7 @@ abstract class _$$EventEntityImplCopyWith<$Res>
       List<String> countryCodes,
       List<String> regions,
       String status,
-      DateTime resolutionDate,
+      DateTime? resolutionDate,
       String? resolutionSource,
       double totalVolume});
 }
@@ -214,7 +215,7 @@ class __$$EventEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createdAt = null,
+    Object? createdAt = freezed,
     Object? markets = null,
     Object? resolvedAt = freezed,
     Object? imageUrl = freezed,
@@ -228,15 +229,15 @@ class __$$EventEntityImplCopyWithImpl<$Res>
     Object? countryCodes = null,
     Object? regions = null,
     Object? status = null,
-    Object? resolutionDate = null,
+    Object? resolutionDate = freezed,
     Object? resolutionSource = freezed,
     Object? totalVolume = null,
   }) {
     return _then(_$EventEntityImpl(
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       markets: null == markets
           ? _value._markets
           : markets // ignore: cast_nullable_to_non_nullable
@@ -289,10 +290,10 @@ class __$$EventEntityImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      resolutionDate: null == resolutionDate
+      resolutionDate: freezed == resolutionDate
           ? _value.resolutionDate
           : resolutionDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       resolutionSource: freezed == resolutionSource
           ? _value.resolutionSource
           : resolutionSource // ignore: cast_nullable_to_non_nullable
@@ -309,7 +310,7 @@ class __$$EventEntityImplCopyWithImpl<$Res>
 
 class _$EventEntityImpl extends _EventEntity {
   const _$EventEntityImpl(
-      {required this.createdAt,
+      {this.createdAt,
       required final List<MarketEntity> markets,
       this.resolvedAt,
       this.imageUrl,
@@ -323,7 +324,7 @@ class _$EventEntityImpl extends _EventEntity {
       required final List<String> countryCodes,
       required final List<String> regions,
       required this.status,
-      required this.resolutionDate,
+      this.resolutionDate,
       this.resolutionSource,
       required this.totalVolume})
       : _markets = markets,
@@ -333,7 +334,7 @@ class _$EventEntityImpl extends _EventEntity {
         super._();
 
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   final List<MarketEntity> _markets;
   @override
   List<MarketEntity> get markets {
@@ -385,7 +386,8 @@ class _$EventEntityImpl extends _EventEntity {
   @override
   final String status;
   @override
-  final DateTime resolutionDate;
+  final DateTime? resolutionDate;
+// Made nullable
   @override
   final String? resolutionSource;
   @override
@@ -402,7 +404,7 @@ class _$EventEntityImpl extends _EventEntity {
 
 abstract class _EventEntity extends EventEntity {
   const factory _EventEntity(
-      {required final DateTime createdAt,
+      {final DateTime? createdAt,
       required final List<MarketEntity> markets,
       final DateTime? resolvedAt,
       final String? imageUrl,
@@ -416,13 +418,13 @@ abstract class _EventEntity extends EventEntity {
       required final List<String> countryCodes,
       required final List<String> regions,
       required final String status,
-      required final DateTime resolutionDate,
+      final DateTime? resolutionDate,
       final String? resolutionSource,
       required final double totalVolume}) = _$EventEntityImpl;
   const _EventEntity._() : super._();
 
   @override
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
   List<MarketEntity> get markets;
   @override
@@ -450,7 +452,7 @@ abstract class _EventEntity extends EventEntity {
   @override
   String get status;
   @override
-  DateTime get resolutionDate;
+  DateTime? get resolutionDate; // Made nullable
   @override
   String? get resolutionSource;
   @override

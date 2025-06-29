@@ -20,7 +20,8 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$EventModel {
-  String get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'createdAt')
+  String? get createdAt => throw _privateConstructorUsedError;
   List<MarketModel> get markets => throw _privateConstructorUsedError;
   String? get resolvedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'imageUrl')
@@ -31,14 +32,19 @@ mixin _$EventModel {
   String get title => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  String get category => throw _privateConstructorUsedError;
-  List<String> get hashtags => throw _privateConstructorUsedError;
-  List<String> get countryCodes => throw _privateConstructorUsedError;
-  List<String> get regions => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
-  String get resolutionDate => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError; // Make nullable
+  List<String>? get hashtags =>
+      throw _privateConstructorUsedError; // Make nullable
+  List<String>? get countryCodes =>
+      throw _privateConstructorUsedError; // Make nullable
+  List<String>? get regions =>
+      throw _privateConstructorUsedError; // Make nullable
+  String? get status => throw _privateConstructorUsedError; // Make nullable
+  @JsonKey(name: 'resolutionDate')
+  String? get resolutionDate =>
+      throw _privateConstructorUsedError; // Make nullable
   String? get resolutionSource => throw _privateConstructorUsedError;
-  double get totalVolume => throw _privateConstructorUsedError;
+  double? get totalVolume => throw _privateConstructorUsedError;
 
   /// Serializes this EventModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,7 +63,7 @@ abstract class $EventModelCopyWith<$Res> {
       _$EventModelCopyWithImpl<$Res, EventModel>;
   @useResult
   $Res call(
-      {String createdAt,
+      {@JsonKey(name: 'createdAt') String? createdAt,
       List<MarketModel> markets,
       String? resolvedAt,
       @JsonKey(name: 'imageUrl') String? imageUrl,
@@ -66,14 +72,14 @@ abstract class $EventModelCopyWith<$Res> {
       String title,
       String type,
       String? description,
-      String category,
-      List<String> hashtags,
-      List<String> countryCodes,
-      List<String> regions,
-      String status,
-      String resolutionDate,
+      String? category,
+      List<String>? hashtags,
+      List<String>? countryCodes,
+      List<String>? regions,
+      String? status,
+      @JsonKey(name: 'resolutionDate') String? resolutionDate,
       String? resolutionSource,
-      double totalVolume});
+      double? totalVolume});
 }
 
 /// @nodoc
@@ -91,7 +97,7 @@ class _$EventModelCopyWithImpl<$Res, $Val extends EventModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createdAt = null,
+    Object? createdAt = freezed,
     Object? markets = null,
     Object? resolvedAt = freezed,
     Object? imageUrl = freezed,
@@ -100,20 +106,20 @@ class _$EventModelCopyWithImpl<$Res, $Val extends EventModel>
     Object? title = null,
     Object? type = null,
     Object? description = freezed,
-    Object? category = null,
-    Object? hashtags = null,
-    Object? countryCodes = null,
-    Object? regions = null,
-    Object? status = null,
-    Object? resolutionDate = null,
+    Object? category = freezed,
+    Object? hashtags = freezed,
+    Object? countryCodes = freezed,
+    Object? regions = freezed,
+    Object? status = freezed,
+    Object? resolutionDate = freezed,
     Object? resolutionSource = freezed,
-    Object? totalVolume = null,
+    Object? totalVolume = freezed,
   }) {
     return _then(_value.copyWith(
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       markets: null == markets
           ? _value.markets
           : markets // ignore: cast_nullable_to_non_nullable
@@ -146,38 +152,38 @@ class _$EventModelCopyWithImpl<$Res, $Val extends EventModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      category: null == category
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as String,
-      hashtags: null == hashtags
+              as String?,
+      hashtags: freezed == hashtags
           ? _value.hashtags
           : hashtags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      countryCodes: null == countryCodes
+              as List<String>?,
+      countryCodes: freezed == countryCodes
           ? _value.countryCodes
           : countryCodes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      regions: null == regions
+              as List<String>?,
+      regions: freezed == regions
           ? _value.regions
           : regions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      status: null == status
+              as List<String>?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      resolutionDate: null == resolutionDate
+              as String?,
+      resolutionDate: freezed == resolutionDate
           ? _value.resolutionDate
           : resolutionDate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       resolutionSource: freezed == resolutionSource
           ? _value.resolutionSource
           : resolutionSource // ignore: cast_nullable_to_non_nullable
               as String?,
-      totalVolume: null == totalVolume
+      totalVolume: freezed == totalVolume
           ? _value.totalVolume
           : totalVolume // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
     ) as $Val);
   }
 }
@@ -191,7 +197,7 @@ abstract class _$$EventModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String createdAt,
+      {@JsonKey(name: 'createdAt') String? createdAt,
       List<MarketModel> markets,
       String? resolvedAt,
       @JsonKey(name: 'imageUrl') String? imageUrl,
@@ -200,14 +206,14 @@ abstract class _$$EventModelImplCopyWith<$Res>
       String title,
       String type,
       String? description,
-      String category,
-      List<String> hashtags,
-      List<String> countryCodes,
-      List<String> regions,
-      String status,
-      String resolutionDate,
+      String? category,
+      List<String>? hashtags,
+      List<String>? countryCodes,
+      List<String>? regions,
+      String? status,
+      @JsonKey(name: 'resolutionDate') String? resolutionDate,
       String? resolutionSource,
-      double totalVolume});
+      double? totalVolume});
 }
 
 /// @nodoc
@@ -223,7 +229,7 @@ class __$$EventModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createdAt = null,
+    Object? createdAt = freezed,
     Object? markets = null,
     Object? resolvedAt = freezed,
     Object? imageUrl = freezed,
@@ -232,20 +238,20 @@ class __$$EventModelImplCopyWithImpl<$Res>
     Object? title = null,
     Object? type = null,
     Object? description = freezed,
-    Object? category = null,
-    Object? hashtags = null,
-    Object? countryCodes = null,
-    Object? regions = null,
-    Object? status = null,
-    Object? resolutionDate = null,
+    Object? category = freezed,
+    Object? hashtags = freezed,
+    Object? countryCodes = freezed,
+    Object? regions = freezed,
+    Object? status = freezed,
+    Object? resolutionDate = freezed,
     Object? resolutionSource = freezed,
-    Object? totalVolume = null,
+    Object? totalVolume = freezed,
   }) {
     return _then(_$EventModelImpl(
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       markets: null == markets
           ? _value._markets
           : markets // ignore: cast_nullable_to_non_nullable
@@ -278,38 +284,38 @@ class __$$EventModelImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      category: null == category
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as String,
-      hashtags: null == hashtags
+              as String?,
+      hashtags: freezed == hashtags
           ? _value._hashtags
           : hashtags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      countryCodes: null == countryCodes
+              as List<String>?,
+      countryCodes: freezed == countryCodes
           ? _value._countryCodes
           : countryCodes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      regions: null == regions
+              as List<String>?,
+      regions: freezed == regions
           ? _value._regions
           : regions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      status: null == status
+              as List<String>?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      resolutionDate: null == resolutionDate
+              as String?,
+      resolutionDate: freezed == resolutionDate
           ? _value.resolutionDate
           : resolutionDate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       resolutionSource: freezed == resolutionSource
           ? _value.resolutionSource
           : resolutionSource // ignore: cast_nullable_to_non_nullable
               as String?,
-      totalVolume: null == totalVolume
+      totalVolume: freezed == totalVolume
           ? _value.totalVolume
           : totalVolume // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
     ));
   }
 }
@@ -318,7 +324,7 @@ class __$$EventModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$EventModelImpl extends _EventModel {
   const _$EventModelImpl(
-      {required this.createdAt,
+      {@JsonKey(name: 'createdAt') this.createdAt,
       required final List<MarketModel> markets,
       this.resolvedAt,
       @JsonKey(name: 'imageUrl') this.imageUrl,
@@ -327,14 +333,14 @@ class _$EventModelImpl extends _EventModel {
       required this.title,
       required this.type,
       this.description,
-      required this.category,
-      required final List<String> hashtags,
-      required final List<String> countryCodes,
-      required final List<String> regions,
-      required this.status,
-      required this.resolutionDate,
+      this.category,
+      final List<String>? hashtags,
+      final List<String>? countryCodes,
+      final List<String>? regions,
+      this.status,
+      @JsonKey(name: 'resolutionDate') this.resolutionDate,
       this.resolutionSource,
-      required this.totalVolume})
+      this.totalVolume})
       : _markets = markets,
         _hashtags = hashtags,
         _countryCodes = countryCodes,
@@ -345,7 +351,8 @@ class _$EventModelImpl extends _EventModel {
       _$$EventModelImplFromJson(json);
 
   @override
-  final String createdAt;
+  @JsonKey(name: 'createdAt')
+  final String? createdAt;
   final List<MarketModel> _markets;
   @override
   List<MarketModel> get markets {
@@ -371,39 +378,55 @@ class _$EventModelImpl extends _EventModel {
   @override
   final String? description;
   @override
-  final String category;
-  final List<String> _hashtags;
+  final String? category;
+// Make nullable
+  final List<String>? _hashtags;
+// Make nullable
   @override
-  List<String> get hashtags {
+  List<String>? get hashtags {
+    final value = _hashtags;
+    if (value == null) return null;
     if (_hashtags is EqualUnmodifiableListView) return _hashtags;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_hashtags);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _countryCodes;
+// Make nullable
+  final List<String>? _countryCodes;
+// Make nullable
   @override
-  List<String> get countryCodes {
+  List<String>? get countryCodes {
+    final value = _countryCodes;
+    if (value == null) return null;
     if (_countryCodes is EqualUnmodifiableListView) return _countryCodes;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_countryCodes);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _regions;
+// Make nullable
+  final List<String>? _regions;
+// Make nullable
   @override
-  List<String> get regions {
+  List<String>? get regions {
+    final value = _regions;
+    if (value == null) return null;
     if (_regions is EqualUnmodifiableListView) return _regions;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_regions);
+    return EqualUnmodifiableListView(value);
   }
 
+// Make nullable
   @override
-  final String status;
+  final String? status;
+// Make nullable
   @override
-  final String resolutionDate;
+  @JsonKey(name: 'resolutionDate')
+  final String? resolutionDate;
+// Make nullable
   @override
   final String? resolutionSource;
   @override
-  final double totalVolume;
+  final double? totalVolume;
 
   @override
   String toString() {
@@ -484,7 +507,7 @@ class _$EventModelImpl extends _EventModel {
 
 abstract class _EventModel extends EventModel {
   const factory _EventModel(
-      {required final String createdAt,
+      {@JsonKey(name: 'createdAt') final String? createdAt,
       required final List<MarketModel> markets,
       final String? resolvedAt,
       @JsonKey(name: 'imageUrl') final String? imageUrl,
@@ -493,21 +516,22 @@ abstract class _EventModel extends EventModel {
       required final String title,
       required final String type,
       final String? description,
-      required final String category,
-      required final List<String> hashtags,
-      required final List<String> countryCodes,
-      required final List<String> regions,
-      required final String status,
-      required final String resolutionDate,
+      final String? category,
+      final List<String>? hashtags,
+      final List<String>? countryCodes,
+      final List<String>? regions,
+      final String? status,
+      @JsonKey(name: 'resolutionDate') final String? resolutionDate,
       final String? resolutionSource,
-      required final double totalVolume}) = _$EventModelImpl;
+      final double? totalVolume}) = _$EventModelImpl;
   const _EventModel._() : super._();
 
   factory _EventModel.fromJson(Map<String, dynamic> json) =
       _$EventModelImpl.fromJson;
 
   @override
-  String get createdAt;
+  @JsonKey(name: 'createdAt')
+  String? get createdAt;
   @override
   List<MarketModel> get markets;
   @override
@@ -527,21 +551,22 @@ abstract class _EventModel extends EventModel {
   @override
   String? get description;
   @override
-  String get category;
+  String? get category; // Make nullable
   @override
-  List<String> get hashtags;
+  List<String>? get hashtags; // Make nullable
   @override
-  List<String> get countryCodes;
+  List<String>? get countryCodes; // Make nullable
   @override
-  List<String> get regions;
+  List<String>? get regions; // Make nullable
   @override
-  String get status;
+  String? get status; // Make nullable
   @override
-  String get resolutionDate;
+  @JsonKey(name: 'resolutionDate')
+  String? get resolutionDate; // Make nullable
   @override
   String? get resolutionSource;
   @override
-  double get totalVolume;
+  double? get totalVolume;
 
   /// Create a copy of EventModel
   /// with the given fields replaced by the non-null parameter values.
@@ -557,8 +582,9 @@ EventsApiResponse _$EventsApiResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$EventsApiResponse {
-  List<EventModel> get events => throw _privateConstructorUsedError;
-  PaginationModel get pagination => throw _privateConstructorUsedError;
+  List<EventModel>? get events =>
+      throw _privateConstructorUsedError; // Make nullable, though usually required
+  PaginationModel? get pagination => throw _privateConstructorUsedError;
 
   /// Serializes this EventsApiResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -576,9 +602,9 @@ abstract class $EventsApiResponseCopyWith<$Res> {
           EventsApiResponse value, $Res Function(EventsApiResponse) then) =
       _$EventsApiResponseCopyWithImpl<$Res, EventsApiResponse>;
   @useResult
-  $Res call({List<EventModel> events, PaginationModel pagination});
+  $Res call({List<EventModel>? events, PaginationModel? pagination});
 
-  $PaginationModelCopyWith<$Res> get pagination;
+  $PaginationModelCopyWith<$Res>? get pagination;
 }
 
 /// @nodoc
@@ -596,18 +622,18 @@ class _$EventsApiResponseCopyWithImpl<$Res, $Val extends EventsApiResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? events = null,
-    Object? pagination = null,
+    Object? events = freezed,
+    Object? pagination = freezed,
   }) {
     return _then(_value.copyWith(
-      events: null == events
+      events: freezed == events
           ? _value.events
           : events // ignore: cast_nullable_to_non_nullable
-              as List<EventModel>,
-      pagination: null == pagination
+              as List<EventModel>?,
+      pagination: freezed == pagination
           ? _value.pagination
           : pagination // ignore: cast_nullable_to_non_nullable
-              as PaginationModel,
+              as PaginationModel?,
     ) as $Val);
   }
 
@@ -615,8 +641,12 @@ class _$EventsApiResponseCopyWithImpl<$Res, $Val extends EventsApiResponse>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $PaginationModelCopyWith<$Res> get pagination {
-    return $PaginationModelCopyWith<$Res>(_value.pagination, (value) {
+  $PaginationModelCopyWith<$Res>? get pagination {
+    if (_value.pagination == null) {
+      return null;
+    }
+
+    return $PaginationModelCopyWith<$Res>(_value.pagination!, (value) {
       return _then(_value.copyWith(pagination: value) as $Val);
     });
   }
@@ -630,10 +660,10 @@ abstract class _$$EventsApiResponseImplCopyWith<$Res>
       __$$EventsApiResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<EventModel> events, PaginationModel pagination});
+  $Res call({List<EventModel>? events, PaginationModel? pagination});
 
   @override
-  $PaginationModelCopyWith<$Res> get pagination;
+  $PaginationModelCopyWith<$Res>? get pagination;
 }
 
 /// @nodoc
@@ -649,18 +679,18 @@ class __$$EventsApiResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? events = null,
-    Object? pagination = null,
+    Object? events = freezed,
+    Object? pagination = freezed,
   }) {
     return _then(_$EventsApiResponseImpl(
-      events: null == events
+      events: freezed == events
           ? _value._events
           : events // ignore: cast_nullable_to_non_nullable
-              as List<EventModel>,
-      pagination: null == pagination
+              as List<EventModel>?,
+      pagination: freezed == pagination
           ? _value.pagination
           : pagination // ignore: cast_nullable_to_non_nullable
-              as PaginationModel,
+              as PaginationModel?,
     ));
   }
 }
@@ -669,22 +699,25 @@ class __$$EventsApiResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$EventsApiResponseImpl implements _EventsApiResponse {
   const _$EventsApiResponseImpl(
-      {required final List<EventModel> events, required this.pagination})
+      {final List<EventModel>? events, this.pagination})
       : _events = events;
 
   factory _$EventsApiResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$EventsApiResponseImplFromJson(json);
 
-  final List<EventModel> _events;
+  final List<EventModel>? _events;
   @override
-  List<EventModel> get events {
+  List<EventModel>? get events {
+    final value = _events;
+    if (value == null) return null;
     if (_events is EqualUnmodifiableListView) return _events;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_events);
+    return EqualUnmodifiableListView(value);
   }
 
+// Make nullable, though usually required
   @override
-  final PaginationModel pagination;
+  final PaginationModel? pagination;
 
   @override
   String toString() {
@@ -725,16 +758,16 @@ class _$EventsApiResponseImpl implements _EventsApiResponse {
 
 abstract class _EventsApiResponse implements EventsApiResponse {
   const factory _EventsApiResponse(
-      {required final List<EventModel> events,
-      required final PaginationModel pagination}) = _$EventsApiResponseImpl;
+      {final List<EventModel>? events,
+      final PaginationModel? pagination}) = _$EventsApiResponseImpl;
 
   factory _EventsApiResponse.fromJson(Map<String, dynamic> json) =
       _$EventsApiResponseImpl.fromJson;
 
   @override
-  List<EventModel> get events;
+  List<EventModel>? get events; // Make nullable, though usually required
   @override
-  PaginationModel get pagination;
+  PaginationModel? get pagination;
 
   /// Create a copy of EventsApiResponse
   /// with the given fields replaced by the non-null parameter values.
