@@ -16,8 +16,6 @@ class HttpClientImpl implements IHttpClient {
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
   }) async {
-    log('data-path: $path');
-
     final uri = Uri.parse('${AppConstants.BASE_URL}$path').replace(
       queryParameters:
           queryParameters?.map((key, value) => MapEntry(key, value.toString())),
@@ -33,7 +31,6 @@ class HttpClientImpl implements IHttpClient {
 
     try {
       final response = await _client.get(uri, headers: finalHeaders);
-      log('data-response: $response');
       return response;
     } on http.ClientException catch (e) {
       throw Exception('HTTP Client Error: ${e.message}');

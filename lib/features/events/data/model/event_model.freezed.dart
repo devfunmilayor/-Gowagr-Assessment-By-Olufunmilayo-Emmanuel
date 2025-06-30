@@ -32,17 +32,13 @@ mixin _$EventModel {
   String get title => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  String? get category => throw _privateConstructorUsedError; // Make nullable
-  List<String>? get hashtags =>
-      throw _privateConstructorUsedError; // Make nullable
-  List<String>? get countryCodes =>
-      throw _privateConstructorUsedError; // Make nullable
-  List<String>? get regions =>
-      throw _privateConstructorUsedError; // Make nullable
-  String? get status => throw _privateConstructorUsedError; // Make nullable
+  String? get category => throw _privateConstructorUsedError;
+  List<String>? get hashtags => throw _privateConstructorUsedError;
+  List<String>? get countryCodes => throw _privateConstructorUsedError;
+  List<String>? get regions => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'resolutionDate')
-  String? get resolutionDate =>
-      throw _privateConstructorUsedError; // Make nullable
+  String? get resolutionDate => throw _privateConstructorUsedError;
   String? get resolutionSource => throw _privateConstructorUsedError;
   double? get totalVolume => throw _privateConstructorUsedError;
 
@@ -379,9 +375,7 @@ class _$EventModelImpl extends _EventModel {
   final String? description;
   @override
   final String? category;
-// Make nullable
   final List<String>? _hashtags;
-// Make nullable
   @override
   List<String>? get hashtags {
     final value = _hashtags;
@@ -391,9 +385,7 @@ class _$EventModelImpl extends _EventModel {
     return EqualUnmodifiableListView(value);
   }
 
-// Make nullable
   final List<String>? _countryCodes;
-// Make nullable
   @override
   List<String>? get countryCodes {
     final value = _countryCodes;
@@ -403,9 +395,7 @@ class _$EventModelImpl extends _EventModel {
     return EqualUnmodifiableListView(value);
   }
 
-// Make nullable
   final List<String>? _regions;
-// Make nullable
   @override
   List<String>? get regions {
     final value = _regions;
@@ -415,14 +405,11 @@ class _$EventModelImpl extends _EventModel {
     return EqualUnmodifiableListView(value);
   }
 
-// Make nullable
   @override
   final String? status;
-// Make nullable
   @override
   @JsonKey(name: 'resolutionDate')
   final String? resolutionDate;
-// Make nullable
   @override
   final String? resolutionSource;
   @override
@@ -551,18 +538,18 @@ abstract class _EventModel extends EventModel {
   @override
   String? get description;
   @override
-  String? get category; // Make nullable
+  String? get category;
   @override
-  List<String>? get hashtags; // Make nullable
+  List<String>? get hashtags;
   @override
-  List<String>? get countryCodes; // Make nullable
+  List<String>? get countryCodes;
   @override
-  List<String>? get regions; // Make nullable
+  List<String>? get regions;
   @override
-  String? get status; // Make nullable
+  String? get status;
   @override
   @JsonKey(name: 'resolutionDate')
-  String? get resolutionDate; // Make nullable
+  String? get resolutionDate;
   @override
   String? get resolutionSource;
   @override
@@ -582,8 +569,7 @@ EventsApiResponse _$EventsApiResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$EventsApiResponse {
-  List<EventModel>? get events =>
-      throw _privateConstructorUsedError; // Make nullable, though usually required
+  List<EventModel>? get events => throw _privateConstructorUsedError;
   PaginationModel? get pagination => throw _privateConstructorUsedError;
 
   /// Serializes this EventsApiResponse to a JSON map.
@@ -715,7 +701,6 @@ class _$EventsApiResponseImpl implements _EventsApiResponse {
     return EqualUnmodifiableListView(value);
   }
 
-// Make nullable, though usually required
   @override
   final PaginationModel? pagination;
 
@@ -765,7 +750,7 @@ abstract class _EventsApiResponse implements EventsApiResponse {
       _$EventsApiResponseImpl.fromJson;
 
   @override
-  List<EventModel>? get events; // Make nullable, though usually required
+  List<EventModel>? get events;
   @override
   PaginationModel? get pagination;
 

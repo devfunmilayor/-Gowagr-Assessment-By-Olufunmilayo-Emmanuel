@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class CustomSearchBar extends StatelessWidget {
@@ -16,22 +14,26 @@ class CustomSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final InputDecorationTheme inputTheme =
+        Theme.of(context).inputDecorationTheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
-        style: Theme.of(context).textTheme.bodyMedium, // Use themed text style
+        style: Theme.of(context).textTheme.bodyMedium,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: Theme.of(context).inputDecorationTheme.hintStyle, // Use themed hint style
-          prefixIcon: Icon(Icons.search, color: Theme.of(context).inputDecorationTheme.prefixIconColor), // Use themed icon color
-          border: Theme.of(context).inputDecorationTheme.border,
-          enabledBorder: Theme.of(context).inputDecorationTheme.enabledBorder,
-          focusedBorder: Theme.of(context).inputDecorationTheme.focusedBorder,
-          filled: true,
-          fillColor: Theme.of(context).inputDecorationTheme.fillColor,
-          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          hintStyle: inputTheme.hintStyle,
+          prefixIcon: Icon(Icons.search, color: inputTheme.prefixIconColor),
+          border: inputTheme.border,
+          enabledBorder: inputTheme.enabledBorder,
+          focusedBorder: inputTheme.focusedBorder,
+          filled: inputTheme.filled,
+          fillColor: inputTheme.fillColor,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
         ),
       ),
     );

@@ -1,6 +1,6 @@
 name: gowagr_assessment
 description: A Flutter application for the Gowagr Mobile Engineer assessment.
-publish_to: 'none' # Remove this line if you intend to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -43,11 +43,30 @@ dependencies:
   # Date Formatting
   intl: ^0.18.1
 
-  # Icons (for specific UI elements like trending/watchlist)
+  # Others
   phosphor_flutter: ^2.0.1
   equatable: ^2.0.7
   dartz: ^0.10.1
   path_provider: ^2.1.5
+  flutter_svg: ^2.0.5
+  shimmer: ^3.0.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/png/qalla_app_icon.png"
+  min_sdk_android: 21
+  icon_size: 36
+  macos:
+    generate: true
+    image_path: "assets/images/png/qalla_app_icon.png"
+    icon_size: 36
+
+flutter_gen:
+  integrations:
+    flutter_svg: true
+    rive: true
 
 dev_dependencies:
   flutter_test:
@@ -70,3 +89,5 @@ flutter:
   uses-material-design: true
   assets:
   - assets/images/
+  - assets/images/svg/
+  - assets/images/png/

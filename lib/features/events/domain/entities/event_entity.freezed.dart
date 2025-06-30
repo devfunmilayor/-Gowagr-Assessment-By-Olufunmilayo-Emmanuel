@@ -30,8 +30,7 @@ mixin _$EventEntity {
   List<String> get countryCodes => throw _privateConstructorUsedError;
   List<String> get regions => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
-  DateTime? get resolutionDate =>
-      throw _privateConstructorUsedError; // Made nullable
+  DateTime? get resolutionDate => throw _privateConstructorUsedError;
   String? get resolutionSource => throw _privateConstructorUsedError;
   double get totalVolume => throw _privateConstructorUsedError;
 
@@ -387,7 +386,6 @@ class _$EventEntityImpl extends _EventEntity {
   final String status;
   @override
   final DateTime? resolutionDate;
-// Made nullable
   @override
   final String? resolutionSource;
   @override
@@ -452,7 +450,7 @@ abstract class _EventEntity extends EventEntity {
   @override
   String get status;
   @override
-  DateTime? get resolutionDate; // Made nullable
+  DateTime? get resolutionDate;
   @override
   String? get resolutionSource;
   @override

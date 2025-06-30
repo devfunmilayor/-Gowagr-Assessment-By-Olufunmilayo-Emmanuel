@@ -1,3 +1,4 @@
+// lib/core/themes/app_theme.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gowagr_assessment/core/constants/app_colors.dart';
@@ -14,92 +15,55 @@ class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
       brightness: Brightness.light,
-      primaryColor: AppColors.primaryLight,
-      colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: _createMaterialColor(AppColors.primaryLight),
-        brightness: Brightness.light,
-      ).copyWith(
-        secondary: AppColors.accentLight,
+      primaryColor: AppColors.primaryBlue,
+      scaffoldBackgroundColor: AppColors.backgroundGrey,
+      cardColor: AppColors.white,
+
+      colorScheme: const ColorScheme.light(
+        primary: AppColors.primaryBlue,
+        onPrimary: AppColors.white,
+        secondary: AppColors.primaryBlue,
+        onSecondary: AppColors.white,
+        error: AppColors.dangerRed,
+        onError: AppColors.white,
+        surface: AppColors.white,
+        onSurface: AppColors.black,
       ),
-      scaffoldBackgroundColor: AppColors.backgroundLight,
-      cardColor: AppColors.cardLight,
+
       textTheme: TextTheme(
-        displayLarge: GoogleFonts.archivo(
-            fontSize: 57,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        displayMedium: GoogleFonts.archivo(
-            fontSize: 45,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        displaySmall: GoogleFonts.archivo(
-            fontSize: 36,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        headlineLarge: GoogleFonts.archivo(
-            fontSize: 32,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        headlineMedium: GoogleFonts.archivo(
-            fontSize: 28,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        headlineSmall: GoogleFonts.archivo(
-            fontSize: 24,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        titleLarge: GoogleFonts.archivo(
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textLight),
-        titleMedium: GoogleFonts.archivo(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textLight),
-        titleSmall: GoogleFonts.archivo(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textLight),
-        bodyLarge: GoogleFonts.archivo(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        bodyMedium: GoogleFonts.archivo(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        bodySmall: GoogleFonts.archivo(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textLight),
-        labelLarge: GoogleFonts.archivo(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textLight),
-        labelMedium: GoogleFonts.archivo(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textLight),
-        labelSmall: GoogleFonts.archivo(
-            fontSize: 11,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textLight),
+        displayLarge: GoogleFonts.archivo(fontSize: 57, fontWeight: FontWeight.w400, color: AppColors.black),
+        displayMedium: GoogleFonts.archivo(fontSize: 45, fontWeight: FontWeight.w400, color: AppColors.black),
+        displaySmall: GoogleFonts.archivo(fontSize: 36, fontWeight: FontWeight.w400, color: AppColors.black),
+        headlineLarge: GoogleFonts.archivo(fontSize: 32, fontWeight: FontWeight.w400, color: AppColors.black),
+        headlineMedium: GoogleFonts.archivo(fontSize: 28, fontWeight: FontWeight.w400, color: AppColors.black),
+        headlineSmall: GoogleFonts.archivo(fontSize: 24, fontWeight: FontWeight.w400, color: AppColors.black),
+        titleLarge: GoogleFonts.archivo(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.black),
+        titleMedium: GoogleFonts.archivo(fontSize: 16, fontWeight: FontWeight.w500, color: AppColors.black),
+        titleSmall: GoogleFonts.archivo(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.black),
+        bodyLarge: GoogleFonts.archivo(fontSize: 16, fontWeight: FontWeight.w400, color: AppColors.black),
+        bodyMedium: GoogleFonts.archivo(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.black),
+        bodySmall: GoogleFonts.archivo(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.lightGrey),
+        labelLarge: GoogleFonts.archivo(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.black),
+        labelMedium: GoogleFonts.archivo(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.lightGrey),
+        labelSmall: GoogleFonts.archivo(fontSize: 11, fontWeight: FontWeight.w500, color: AppColors.lightGrey),
       ),
+
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.backgroundLight,
+        backgroundColor: AppColors.backgroundGrey,
         elevation: 0,
         titleTextStyle: GoogleFonts.archivo(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: AppColors.textLight,
+          color: AppColors.black,
         ),
-        iconTheme: const IconThemeData(color: AppColors.textLight),
+        iconTheme: const IconThemeData(color: AppColors.black),
       ),
+
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.cardLight,
-        hintStyle: GoogleFonts.archivo(color: AppColors.greyText),
-        prefixIconColor: AppColors.greyText,
+        fillColor: AppColors.lighterGrey,
+        hintStyle: GoogleFonts.archivo(color: AppColors.lightGrey),
+        prefixIconColor: AppColors.mediumGrey,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
@@ -113,108 +77,62 @@ class AppTheme {
           borderSide: BorderSide.none,
         ),
       ),
-      chipTheme: ChipThemeData(
-        backgroundColor: AppColors.cardLight,
-        selectedColor: AppColors.chipBackgroundLight,
-        labelStyle: GoogleFonts.archivo(color: AppColors.textLight),
-        secondaryLabelStyle: GoogleFonts.archivo(color: AppColors.primaryLight),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Colors.transparent),
-        ),
-      ),
+      iconTheme: const IconThemeData(color: AppColors.mediumGrey),
     );
   }
 
   static ThemeData darkTheme() {
     return ThemeData(
       brightness: Brightness.dark,
-      primaryColor: AppColors.primaryDark,
-      colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: _createMaterialColor(AppColors.primaryDark),
-        brightness: Brightness.dark,
-      ).copyWith(
-        secondary: AppColors.accentDark,
+      primaryColor: AppColors.primaryBlue,
+      scaffoldBackgroundColor: AppColors.black,
+      cardColor: AppColors.darkGrey,
+
+      colorScheme: const ColorScheme.dark(
+        primary: AppColors.primaryBlue,
+        onPrimary: AppColors.white,
+        secondary: AppColors.primaryBlue,
+        onSecondary: AppColors.white,
+        error: AppColors.dangerRed,
+        onError: AppColors.white,
+        surface: AppColors.darkGrey,
+        onSurface: AppColors.white,
       ),
-      scaffoldBackgroundColor: AppColors.backgroundDark,
-      cardColor: AppColors.cardDark,
+
       textTheme: TextTheme(
-        displayLarge: GoogleFonts.archivo(
-            fontSize: 57,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        displayMedium: GoogleFonts.archivo(
-            fontSize: 45,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        displaySmall: GoogleFonts.archivo(
-            fontSize: 36,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        headlineLarge: GoogleFonts.archivo(
-            fontSize: 32,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        headlineMedium: GoogleFonts.archivo(
-            fontSize: 28,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        headlineSmall: GoogleFonts.archivo(
-            fontSize: 24,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        titleLarge: GoogleFonts.archivo(
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textDark),
-        titleMedium: GoogleFonts.archivo(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textDark),
-        titleSmall: GoogleFonts.archivo(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textDark),
-        bodyLarge: GoogleFonts.archivo(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        bodyMedium: GoogleFonts.archivo(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        bodySmall: GoogleFonts.archivo(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark),
-        labelLarge: GoogleFonts.archivo(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textDark),
-        labelMedium: GoogleFonts.archivo(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textDark),
-        labelSmall: GoogleFonts.archivo(
-            fontSize: 11,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textDark),
+        displayLarge: GoogleFonts.archivo(fontSize: 57, fontWeight: FontWeight.w400, color: AppColors.white),
+        displayMedium: GoogleFonts.archivo(fontSize: 45, fontWeight: FontWeight.w400, color: AppColors.white),
+        displaySmall: GoogleFonts.archivo(fontSize: 36, fontWeight: FontWeight.w400, color: AppColors.white),
+        headlineLarge: GoogleFonts.archivo(fontSize: 32, fontWeight: FontWeight.w400, color: AppColors.white),
+        headlineMedium: GoogleFonts.archivo(fontSize: 28, fontWeight: FontWeight.w400, color: AppColors.white),
+        headlineSmall: GoogleFonts.archivo(fontSize: 24, fontWeight: FontWeight.w400, color: AppColors.white),
+        titleLarge: GoogleFonts.archivo(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.white),
+        titleMedium: GoogleFonts.archivo(fontSize: 16, fontWeight: FontWeight.w500, color: AppColors.white),
+        titleSmall: GoogleFonts.archivo(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.white),
+        bodyLarge: GoogleFonts.archivo(fontSize: 16, fontWeight: FontWeight.w400, color: AppColors.white),
+        bodyMedium: GoogleFonts.archivo(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.white),
+        bodySmall: GoogleFonts.archivo(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.lightGrey),
+        labelLarge: GoogleFonts.archivo(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.white),
+        labelMedium: GoogleFonts.archivo(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.lightGrey),
+        labelSmall: GoogleFonts.archivo(fontSize: 11, fontWeight: FontWeight.w500, color: AppColors.lightGrey),
       ),
+
       appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.backgroundDark,
+        backgroundColor: AppColors.black,
         elevation: 0,
         titleTextStyle: GoogleFonts.archivo(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: AppColors.textDark,
+          color: AppColors.white,
         ),
-        iconTheme: const IconThemeData(color: AppColors.textDark),
+        iconTheme: const IconThemeData(color: AppColors.white),
       ),
+
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.cardDark,
-        hintStyle: GoogleFonts.archivo(color: AppColors.accentDark),
-        prefixIconColor: AppColors.accentDark,
+        fillColor: AppColors.darkGrey,
+        hintStyle: GoogleFonts.archivo(color: AppColors.lightGrey),
+        prefixIconColor: AppColors.mediumGrey,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
@@ -228,21 +146,12 @@ class AppTheme {
           borderSide: BorderSide.none,
         ),
       ),
-      chipTheme: ChipThemeData(
-        backgroundColor: AppColors.cardDark,
-        selectedColor: AppColors.chipBackgroundDark,
-        labelStyle: GoogleFonts.archivo(color: AppColors.textDark),
-        secondaryLabelStyle: GoogleFonts.archivo(color: AppColors.primaryDark),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Colors.transparent),
-        ),
-      ),
+      iconTheme: const IconThemeData(color: AppColors.mediumGrey),
     );
   }
 
   static MaterialColor _createMaterialColor(Color color) {
-    List strengths = <double>[.05];
+    List<double> strengths = [.05];
     Map<int, Color> swatch = {};
     final int r = color.red, g = color.green, b = color.blue;
 

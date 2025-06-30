@@ -20,28 +20,22 @@ MarketModel _$MarketModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MarketModel {
-  String? get id => throw _privateConstructorUsedError; // Made nullable
-  String? get title => throw _privateConstructorUsedError; // Made nullable
-  String? get rules => throw _privateConstructorUsedError; // Made nullable
+  String? get id => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get rules => throw _privateConstructorUsedError;
   @JsonKey(name: 'imageUrl')
   String? get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'image128Url')
   String? get image128Url => throw _privateConstructorUsedError;
-  double? get yesBuyPrice =>
-      throw _privateConstructorUsedError; // Made nullable
-  double? get noBuyPrice => throw _privateConstructorUsedError; // Made nullable
-  int? get yesPriceForEstimate =>
-      throw _privateConstructorUsedError; // Made nullable
-  int? get noPriceForEstimate =>
-      throw _privateConstructorUsedError; // Made nullable
-  String? get status => throw _privateConstructorUsedError; // Made nullable
+  double? get yesBuyPrice => throw _privateConstructorUsedError;
+  double? get noBuyPrice => throw _privateConstructorUsedError;
+  int? get yesPriceForEstimate => throw _privateConstructorUsedError;
+  int? get noPriceForEstimate => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   String? get resolvedOutcome => throw _privateConstructorUsedError;
-  double? get volumeValueYes =>
-      throw _privateConstructorUsedError; // Made nullable
-  double? get volumeValueNo =>
-      throw _privateConstructorUsedError; // Made nullable
-  int? get yesProfitForEstimate =>
-      throw _privateConstructorUsedError; // Made nullable
+  double? get volumeValueYes => throw _privateConstructorUsedError;
+  double? get volumeValueNo => throw _privateConstructorUsedError;
+  int? get yesProfitForEstimate => throw _privateConstructorUsedError;
   int? get noProfitForEstimate => throw _privateConstructorUsedError;
 
   /// Serializes this MarketModel to a JSON map.
@@ -320,13 +314,10 @@ class _$MarketModelImpl extends _MarketModel {
 
   @override
   final String? id;
-// Made nullable
   @override
   final String? title;
-// Made nullable
   @override
   final String? rules;
-// Made nullable
   @override
   @JsonKey(name: 'imageUrl')
   final String? imageUrl;
@@ -335,30 +326,22 @@ class _$MarketModelImpl extends _MarketModel {
   final String? image128Url;
   @override
   final double? yesBuyPrice;
-// Made nullable
   @override
   final double? noBuyPrice;
-// Made nullable
   @override
   final int? yesPriceForEstimate;
-// Made nullable
   @override
   final int? noPriceForEstimate;
-// Made nullable
   @override
   final String? status;
-// Made nullable
   @override
   final String? resolvedOutcome;
   @override
   final double? volumeValueYes;
-// Made nullable
   @override
   final double? volumeValueNo;
-// Made nullable
   @override
   final int? yesProfitForEstimate;
-// Made nullable
   @override
   final int? noProfitForEstimate;
 
@@ -459,11 +442,11 @@ abstract class _MarketModel extends MarketModel {
       _$MarketModelImpl.fromJson;
 
   @override
-  String? get id; // Made nullable
+  String? get id;
   @override
-  String? get title; // Made nullable
+  String? get title;
   @override
-  String? get rules; // Made nullable
+  String? get rules;
   @override
   @JsonKey(name: 'imageUrl')
   String? get imageUrl;
@@ -471,23 +454,23 @@ abstract class _MarketModel extends MarketModel {
   @JsonKey(name: 'image128Url')
   String? get image128Url;
   @override
-  double? get yesBuyPrice; // Made nullable
+  double? get yesBuyPrice;
   @override
-  double? get noBuyPrice; // Made nullable
+  double? get noBuyPrice;
   @override
-  int? get yesPriceForEstimate; // Made nullable
+  int? get yesPriceForEstimate;
   @override
-  int? get noPriceForEstimate; // Made nullable
+  int? get noPriceForEstimate;
   @override
-  String? get status; // Made nullable
+  String? get status;
   @override
   String? get resolvedOutcome;
   @override
-  double? get volumeValueYes; // Made nullable
+  double? get volumeValueYes;
   @override
-  double? get volumeValueNo; // Made nullable
+  double? get volumeValueNo;
   @override
-  int? get yesProfitForEstimate; // Made nullable
+  int? get yesProfitForEstimate;
   @override
   int? get noProfitForEstimate;
 

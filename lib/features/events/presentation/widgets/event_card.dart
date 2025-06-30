@@ -28,13 +28,12 @@ class EventCard extends StatelessWidget {
         market != null ? '${market.yesProfitForEstimate}%' : '0%';
     final String noProfit =
         market != null ? '${market.noProfitForEstimate}%' : '0%';
-    final double totalTrades =
-        (market?.volumeValueYes ?? 0) + (market?.volumeValueNo ?? 0).toInt();
+    final int totalTrades =
+        ((market?.volumeValueYes ?? 0) + (market?.volumeValueNo ?? 0)).toInt();
 
-    final String formattedEndDate =
-        event.resolutionDate != null
-            ? DateFormat('MMM dd, yyyy').format(event.resolutionDate!)
-            : 'Unknown';
+    final String formattedEndDate = event.resolutionDate != null
+        ? DateFormat('MMM d.').format(event.resolutionDate!)
+        : DateFormat('MMM d.').format(DateTime.now());
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -50,28 +49,27 @@ class EventCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(strokeWidth: 2)),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
+                ClipOval(
+                    child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        width: 48,
+                        height: 48,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color:
+                                    Theme.of(context).colorScheme.secondary)),
+                        errorWidget: (context, url, error) => Icon(Icons.error,
+                            color: Theme.of(context).colorScheme.error))),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     eventTitle,
-                    style: GoogleFonts.archivo(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -83,7 +81,6 @@ class EventCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: _buildBuyButton(
-                    context,
                     label: 'Buy Yes',
                     price: buyYesPrice,
                     isYes: true,
@@ -92,7 +89,6 @@ class EventCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _buildBuyButton(
-                    context,
                     label: 'Buy No',
                     price: buyNoPrice,
                     isYes: false,
@@ -116,16 +112,18 @@ class EventCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildTradesInfo(context, totalTrades.toInt()),
-                Text(
-                  'Ends $formattedEndDate',
-                  style: GoogleFonts.archivo(
-                    fontSize: 12,
-                    color: AppColors.greyText,
-                  ),
+                _buildTradesInfo(context, totalTrades),
+                Row(
+                  children: [
+                    Text(
+                      'Ends $formattedEndDate',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(Icons.bookmark_border,
+                        color: Theme.of(context).iconTheme.color, size: 18),
+                  ],
                 ),
-                Icon(Icons.bookmark_border,
-                    color: AppColors.greyText, size: 18),
               ],
             ),
           ],
@@ -134,39 +132,51 @@ class EventCard extends StatelessWidget {
     );
   }
 
-  Widget _buildBuyButton(BuildContext context,
+  Widget _buildBuyButton(
       {required String label, required String price, required bool isYes}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-      decoration: BoxDecoration(
-        color: isYes
-            ? AppColors.successGreen.withOpacity(0.1)
-            : AppColors.dangerRed.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.archivo(
-              fontSize: 12,
-              color: isYes ? AppColors.successGreen : AppColors.dangerRed,
-              fontWeight: FontWeight.w500,
+    return Builder(builder: (context) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+        decoration: BoxDecoration(
+          border: Border.all(
+              width: 0.2,
+              color: isYes
+                  ? AppColors.categoryChipBackgroundSelectedDark
+                  : AppColors.dangerRed),
+          color: isYes
+              ? AppColors.categoryChipBackgroundSelectedDark.withOpacity(0.1)
+              : AppColors.dangerRed.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.archivo(
+                fontSize: 14,
+                color: isYes
+                    ? AppColors.categoryChipBackgroundSelectedDark
+                    : AppColors.dangerRed,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            price,
-            style: GoogleFonts.archivo(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: isYes ? AppColors.successGreen : AppColors.dangerRed,
+            const SizedBox(width: 14),
+            Text(
+              price,
+              style: GoogleFonts.archivo(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: isYes
+                    ? AppColors.categoryChipBackgroundSelectedDark
+                    : AppColors.dangerRed,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildProfitInfo(BuildContext context, String profit,
@@ -181,11 +191,10 @@ class EventCard extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           profit,
-          style: GoogleFonts.archivo(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: isYes ? AppColors.successGreen : AppColors.dangerRed,
-          ),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: isYes ? AppColors.successGreen : AppColors.dangerRed,
+              ),
         ),
       ],
     );
@@ -194,14 +203,12 @@ class EventCard extends StatelessWidget {
   Widget _buildTradesInfo(BuildContext context, int trades) {
     return Row(
       children: [
-        const Icon(Icons.bar_chart, color: AppColors.greyText, size: 18),
+        Icon(Icons.bar_chart,
+            color: Theme.of(context).iconTheme.color, size: 18),
         const SizedBox(width: 4),
         Text(
           '$trades Trades',
-          style: GoogleFonts.archivo(
-            fontSize: 12,
-            color: AppColors.greyText,
-          ),
+          style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
     );

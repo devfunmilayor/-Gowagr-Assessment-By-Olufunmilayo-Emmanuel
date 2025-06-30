@@ -1,12 +1,14 @@
-// lib/features/events/presentation/pages/qalla_tab_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:gowagr_assessment/core/shared/adaptive_loader.dart';
 import 'package:gowagr_assessment/features/events/presentation/bloc/public_events_bloc.dart';
 import 'package:gowagr_assessment/features/events/presentation/bloc/public_events_event.dart';
 import 'package:gowagr_assessment/features/events/presentation/bloc/public_events_state.dart';
 import 'package:gowagr_assessment/features/events/presentation/widgets/event_card.dart';
+import 'package:gowagr_assessment/features/events/presentation/widgets/event_category_chip.dart';
+import 'package:gowagr_assessment/features/events/presentation/widgets/search_input.dart';
+import 'package:gowagr_assessment/features/theme/presentation/bloc/theme_bloc.dart';
+import 'package:gowagr_assessment/features/theme/presentation/bloc/theme_event.dart';
 
 class QallaTabPage extends StatefulWidget {
   const QallaTabPage({super.key});
@@ -20,11 +22,16 @@ class _QallaTabPageState extends State<QallaTabPage> {
   final ScrollController _scrollController = ScrollController();
   String _selectedCategory = 'Trending';
 
+  final List<String> _topTabs = ['Explore', 'Portfolio', 'Activity'];
+  String _selectedTopTab = 'Explore';
+
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
     _searchController.addListener(_onSearchChanged);
+    context.read<PublicEventBloc>().add(PublicEventsEvent.loadEvents(
+        initialLoad: true, category: _selectedCategory, keyword: null));
   }
 
   void _onScroll() {
@@ -39,45 +46,39 @@ class _QallaTabPageState extends State<QallaTabPage> {
   void _onSearchChanged() {
     final blocState = context.read<PublicEventBloc>().state;
 
-    blocState.maybeMap(
-      loaded: (loadedState) {
-        if (_searchController.text.isEmpty &&
-            loadedState.currentKeyword != null) {
-          context.read<PublicEventBloc>().add(PublicEventsEvent.loadEvents(
-                initialLoad: true,
-                category: _selectedCategory,
-                keyword: null,
-              ));
-        } else if (_searchController.text.isNotEmpty &&
-            _searchController.text != loadedState.currentKeyword) {
-          context
-              .read<PublicEventBloc>()
-              .add(PublicEventsEvent.searchEvents(_searchController.text));
-        }
-      },
-      orElse: () {
-        if (_searchController.text.isNotEmpty) {
-          blocState.mapOrNull(
-            loading: (_) => null,
-            initial: (_) {
-              context
-                  .read<PublicEventBloc>()
-                  .add(PublicEventsEvent.searchEvents(_searchController.text));
-            },
-            empty: (_) {
-              context
-                  .read<PublicEventBloc>()
-                  .add(PublicEventsEvent.searchEvents(_searchController.text));
-            },
-            error: (_) {
-              context
-                  .read<PublicEventBloc>()
-                  .add(PublicEventsEvent.searchEvents(_searchController.text));
-            },
-          );
-        }
-      },
-    );
+    blocState.maybeMap(loaded: (loadedState) {
+      if (_searchController.text.isEmpty &&
+          loadedState.currentKeyword != null) {
+        context.read<PublicEventBloc>().add(PublicEventsEvent.loadEvents(
+              initialLoad: true,
+              category: _selectedCategory,
+              keyword: null,
+            ));
+      } else if (_searchController.text.isNotEmpty &&
+          _searchController.text != loadedState.currentKeyword) {
+        context
+            .read<PublicEventBloc>()
+            .add(PublicEventsEvent.searchEvents(_searchController.text));
+      }
+    }, orElse: () {
+      if (_searchController.text.isNotEmpty) {
+        context
+            .read<PublicEventBloc>()
+            .add(PublicEventsEvent.searchEvents(_searchController.text));
+      }
+    });
+  }
+
+  void _onCategorySelected(String category) {
+    setState(() {
+      _selectedCategory = category;
+    });
+    _searchController.clear();
+    context.read<PublicEventBloc>().add(PublicEventsEvent.loadEvents(
+          initialLoad: true,
+          category: category,
+          keyword: null,
+        ));
   }
 
   @override
@@ -91,167 +92,204 @@ class _QallaTabPageState extends State<QallaTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TextField(
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: _buildCustomAppBar(context),
+      body: Column(
+        children: [
+          CustomSearchBar(
             controller: _searchController,
-            decoration: InputDecoration(
-              hintText: 'Search for a market',
-              prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide.none,
-              ),
-              filled: true,
-              fillColor: Theme.of(context).cardColor,
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-            ),
+            hintText: 'Search for a market',
+            onChanged: (text) {},
           ),
-        ),
-        _buildCategoryFilter(),
-        Expanded(
-          child: BlocConsumer<PublicEventBloc, PublicEventsState>(
-            listener: (context, state) {
-              state.mapOrNull(
-                error: (errorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(errorState.message)),
-                  );
-                },
-              );
-            },
-            builder: (context, state) {
-              return state.map(
-                initial: (_) =>
-                    const Center(child: Text('Start exploring events.')),
-                loading: (_) =>
-                    const Center(child: CircularProgressIndicator()),
-                loadingMore: (loadedState) => ListView.builder(
-                  controller: _scrollController,
-                  itemCount: loadedState.events.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index < loadedState.events.length) {
-                      return EventCard(event: loadedState.events[index]);
-                    } else {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
+          CategoryFilterChips(
+            categories: const [
+              'Trending',
+              'Watchlist',
+              'Entertainment',
+              'Sports'
+            ],
+            selectedCategory: _selectedCategory,
+            onSelected: _onCategorySelected,
+          ),
+          Expanded(
+            child: BlocConsumer<PublicEventBloc, PublicEventsState>(
+              listener: (context, state) {
+                state.mapOrNull(
+                  error: (errorState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(errorState.message)),
+                    );
                   },
-                ),
-                loaded: (loadedState) {
-                  if (loadedState.events.isEmpty) {
-                    return const Center(
-                        child: Text('No events found for this selection.'));
-                  }
-                  return ListView.builder(
+                );
+              },
+              builder: (context, state) {
+                return state.map(
+                  initial: (_) => Center(
+                      child: Text('Start exploring events.',
+                          style: Theme.of(context).textTheme.bodyLarge)),
+                  loading: (_) =>
+                      const Center(child: BuildAdaptiveProgressWid()),
+                  loadingMore: (loadedState) => ListView.builder(
                     controller: _scrollController,
-                    itemCount: loadedState.events.length +
-                        (loadedState.pagination.page <
-                                loadedState.pagination.lastPage
-                            ? 1
-                            : 0),
+                    itemCount: loadedState.events.length + 1,
                     itemBuilder: (context, index) {
                       if (index < loadedState.events.length) {
                         return EventCard(event: loadedState.events[index]);
                       } else {
                         return const Padding(
                           padding: EdgeInsets.symmetric(vertical: 16.0),
-                          child: Center(child: CircularProgressIndicator()),
+                          child: Center(child: BuildAdaptiveProgressWid()),
                         );
                       }
                     },
-                  );
-                },
-                error: (errorState) {
-                  final currentEvents =
-                      context.read<PublicEventBloc>().allEvents;
-                  if (currentEvents.isNotEmpty) {
+                  ),
+                  loaded: (loadedState) {
+                    if (loadedState.events.isEmpty) {
+                      return Center(
+                          child: Text('No events found for this selection.',
+                              style: Theme.of(context).textTheme.bodyLarge));
+                    }
                     return ListView.builder(
                       controller: _scrollController,
-                      itemCount: currentEvents.length,
+                      itemCount: loadedState.events.length +
+                          (loadedState.pagination.page <
+                                  loadedState.pagination.lastPage
+                              ? 1
+                              : 0),
                       itemBuilder: (context, index) {
-                        return EventCard(event: currentEvents[index]);
+                        if (index < loadedState.events.length) {
+                          return EventCard(event: loadedState.events[index]);
+                        } else {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            child: Center(child: BuildAdaptiveProgressWid()),
+                          );
+                        }
                       },
                     );
-                  }
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Error: ${errorState.message}'),
-                        ElevatedButton(
-                          onPressed: () {
-                            context.read<PublicEventBloc>().add(
-                                const PublicEventsEvent.loadEvents(
-                                    initialLoad: true, category: 'Trending'));
-                          },
-                          child: const Text('Retry'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                empty: (emptyState) => Center(child: Text(emptyState.message)),
-              );
-            },
+                  },
+                  error: (errorState) {
+                    final currentEvents =
+                        context.read<PublicEventBloc>().allEvents;
+                    if (currentEvents.isNotEmpty) {
+                      return ListView.builder(
+                        controller: _scrollController,
+                        itemCount: currentEvents.length,
+                        itemBuilder: (context, index) {
+                          return EventCard(event: currentEvents[index]);
+                        },
+                      );
+                    }
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Error: ${errorState.message}',
+                              style: Theme.of(context).textTheme.bodyLarge),
+                          ElevatedButton(
+                            onPressed: () {
+                              context.read<PublicEventBloc>().add(
+                                    const PublicEventsEvent.loadEvents(
+                                        initialLoad: true,
+                                        category: 'Trending'),
+                                  );
+                            },
+                            child: Text(
+                              'Retry',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  empty: (emptyState) => Center(
+                      child: Text(emptyState.message,
+                          style: Theme.of(context).textTheme.bodyLarge)),
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _buildCategoryFilter() {
-    final categories = ['Trending', 'Watchlist', 'Entertainment', 'Sports'];
-    return Container(
-      height: 50,
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          final isSelected = _selectedCategory == category;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: ChoiceChip(
-              label: Text(category),
-              selected: isSelected,
-              onSelected: (selected) {
-                if (selected) {
-                  setState(() => _selectedCategory = category);
-                  _searchController.clear();
-                  context
-                      .read<PublicEventBloc>()
-                      .add(PublicEventsEvent.loadEvents(
-                        initialLoad: true,
-                        category: category,
-                      ));
-                }
-              },
-              selectedColor: Theme.of(context).primaryColor.withOpacity(0.2),
-              labelStyle: GoogleFonts.archivo(
-                color: isSelected
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).textTheme.bodyLarge?.color,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-              backgroundColor: Theme.of(context).cardColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-                side: BorderSide(
-                  color: isSelected
-                      ? Theme.of(context).primaryColor
-                      : Colors.transparent,
-                ),
+  PreferredSizeWidget _buildCustomAppBar(BuildContext context) {
+    final currentThemeMode =
+        context.select((ThemeBloc bloc) => bloc.state.themeMode);
+
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(100.0),
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: Column(
+          children: [
+            const SizedBox(height: 50.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildLogoContainer(),
+                  IconButton(
+                    icon: Icon(
+                      currentThemeMode == ThemeMode.light
+                          ? Icons.dark_mode
+                          : Icons.light_mode,
+                    ),
+                    onPressed: () {
+                      context.read<ThemeBloc>().add(ThemeEvent.toggleTheme());
+                    },
+                  ),
+                ],
               ),
             ),
-          );
-        },
+            const SizedBox(height: 10.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: _topTabs.map((tab) {
+                  final isSelected = _selectedTopTab == tab;
+                  return GestureDetector(
+                    onTap: () => setState(() => _selectedTopTab = tab),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          tab,
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0,
+                                    fontSize: 20,
+                                    color: isSelected
+                                        ? Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.color,
+                                  ),
+                        )
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
