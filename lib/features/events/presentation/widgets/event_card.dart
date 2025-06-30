@@ -192,53 +192,44 @@ class _EventCardState extends State<EventCard> {
     final String buyNoPrice = 'N${market.noBuyPrice.toStringAsFixed(2)}';
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  marketTitle,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
-                      ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Expanded(
+              child: Text(
+                marketTitle,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                    ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(width: 8),
-              _buildCompactBuyButton(
-                label: 'Yes',
-                price: buyYesPrice,
-                isYes: true,
-                isSelected: _selectedMarketOption[market.id] == true,
-                onTap: () {
-                  setState(() => _selectedMarketOption[market.id] = true);
-                },
-              ),
-              const SizedBox(width: 8),
-              _buildCompactBuyButton(
+            ),
+            const SizedBox(width: 8),
+            _buildCompactBuyButton(
+              label: 'Yes',
+              price: buyYesPrice,
+              isYes: true,
+              isSelected: _selectedMarketOption[market.id] == true,
+              onTap: () {
+                setState(() => _selectedMarketOption[market.id] = true);
+              },
+            ),
+            const SizedBox(width: 8),
+            _buildCompactBuyButton(
                 label: 'No',
                 price: buyNoPrice,
                 isYes: false,
                 isSelected: _selectedMarketOption[market.id] == false,
-                onTap: () {
-                  setState(() => _selectedMarketOption[market.id] = false);
-                },
-              ),
-            ],
-          ),
+                onTap: () =>
+                    setState(() => _selectedMarketOption[market.id] = false))
+          ]),
           const SizedBox(height: 8),
           if (widget.event.markets.indexOf(market) !=
               widget.event.markets.length - 1)
-            const Divider(height: 18, thickness: 0.1),
-        ],
-      ),
-    );
+            const Divider(height: 18, thickness: 0.1)
+        ]));
   }
 
   Widget _buildFullWidthBuyButton(
