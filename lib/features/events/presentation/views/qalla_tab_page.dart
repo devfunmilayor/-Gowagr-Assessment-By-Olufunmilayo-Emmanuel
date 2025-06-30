@@ -227,47 +227,52 @@ class _QallaTabPageState extends State<QallaTabPage> {
         context.select((ThemeBloc bloc) => bloc.state.themeMode);
 
     return PreferredSize(
-      preferredSize: const Size.fromHeight(100.0),
-      child: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: Column(
-          children: [
-            const SizedBox(height: 50.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildLogoContainer(),
-                  IconButton(
-                    icon: Icon(
-                      currentThemeMode == ThemeMode.light
-                          ? Icons.dark_mode
-                          : Icons.light_mode,
+      preferredSize: const Size.fromHeight(120.0),
+      child: SafeArea(
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 10.0, right: 10, top: 10, bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildLogoContainer(),
+                    IconButton(
+                      icon: Icon(
+                        currentThemeMode == ThemeMode.light
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                      ),
+                      onPressed: () {
+                        context.read<ThemeBloc>().add(ThemeEvent.toggleTheme());
+                      },
                     ),
-                    onPressed: () {
-                      context.read<ThemeBloc>().add(ThemeEvent.toggleTheme());
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 10.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: _topTabs.map((tab) {
-                  final isSelected = _selectedTopTab == tab;
-                  return GestureDetector(
-                    onTap: () => setState(() => _selectedTopTab = tab),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          tab,
-                          style:
-                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+              const SizedBox(height: 10.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: _topTabs.map((tab) {
+                    final isSelected = _selectedTopTab == tab;
+                    return GestureDetector(
+                      onTap: () => setState(() => _selectedTopTab = tab),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 28.0),
+                            child: Text(
+                              tab,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
                                     fontWeight: FontWeight.w700,
                                     letterSpacing: 0,
                                     fontSize: 20,
@@ -281,14 +286,16 @@ class _QallaTabPageState extends State<QallaTabPage> {
                                             .bodySmall
                                             ?.color,
                                   ),
-                        )
-                      ],
-                    ),
-                  );
-                }).toList(),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

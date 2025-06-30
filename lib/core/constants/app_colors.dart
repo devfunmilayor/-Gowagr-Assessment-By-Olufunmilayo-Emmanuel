@@ -5,6 +5,7 @@ class AppColors {
   static const Color successGreen = Color(0xFF00C67E);
   static const Color dangerRed = Color(0xFFFF3B30);
 
+  static const Color lightBigTextColor = Color(0xff032B69);
   static const Color black = Color(0xFF1C1C1E);
   static const Color darkGrey = Color(0xFF2C2C2E);
   static const Color mediumGrey = Color(0xFF636366);
@@ -14,7 +15,7 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
 
   static const Color logoContainer = Color(0xffE6F0FE);
-  
+
   static const Color categoryChipBackgroundUnselectedLight = Color(0XFFECEFF2);
   static const Color categoryChipTextUnselectedLight = Color(0xFF3C3C43);
   static const Color categoryChipIconUnselectedLight = Color(0xFF636366);
