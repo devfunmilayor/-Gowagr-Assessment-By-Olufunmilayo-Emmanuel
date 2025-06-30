@@ -217,9 +217,7 @@ class _EventCardState extends State<EventCard> {
                 isYes: true,
                 isSelected: _selectedMarketOption[market.id] == true,
                 onTap: () {
-                  setState(() {
-                    _selectedMarketOption[market.id] = true;
-                  });
+                  setState(() => _selectedMarketOption[market.id] = true);
                 },
               ),
               const SizedBox(width: 8),
@@ -229,9 +227,7 @@ class _EventCardState extends State<EventCard> {
                 isYes: false,
                 isSelected: _selectedMarketOption[market.id] == false,
                 onTap: () {
-                  setState(() {
-                    _selectedMarketOption[market.id] = false;
-                  });
+                  setState(() => _selectedMarketOption[market.id] = false);
                 },
               ),
             ],
@@ -271,7 +267,14 @@ class _EventCardState extends State<EventCard> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(width: 14),
+            Container(
+              margin: EdgeInsets.only(left: 4, right: 4),
+              width: 10,
+              height: 2,
+              decoration: BoxDecoration(
+                color: isYes ? AppColors.primaryBlue : AppColors.dangerRed,
+              ),
+            ),
             Text(
               price,
               style: GoogleFonts.archivo(
