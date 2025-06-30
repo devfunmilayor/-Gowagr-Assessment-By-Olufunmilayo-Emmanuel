@@ -1,4 +1,4 @@
-# Gowagr Assessment Project README
+# Gowagr Assessment Project README BY Olufunmilayo Emmanuel
 
 This README provides a detailed explanation of the architectural choices, state management strategy, caching implementation, and key design decisions made for the Gowagr mobile engineer assessment Flutter project.
 
@@ -32,7 +32,7 @@ The project utilizes **BLoC (Business Logic Component)** for managing the applic
 **Key Aspects of BLoC Implementation:**
 
 * **Events (`events_event.dart`):** These are abstract representations of actions or intents from the UI or other parts of the application. Events are dispatched to the BLoC (e.g., `EventsEvent.fetchEvents()`, `EventsEvent.searchEvents()`). `freezed` is used here to create sealed classes for immutable event objects, providing union types and reducing boilerplate.
-* **States (`events_state.dart`):** These represent the different states the UI can be in (e.g., `EventsState.initial()`, `EventsState.loading()`, `EventsState.loaded()`, `EventsState.error()`, `EventsState.empty()`). Each state carries the necessary data for the UI to render. `freezed` is also used for states, ensuring immutability and easy pattern matching in the UI (`state.map()` or `state.when()`).
+* **States (`events_state.dart`):** These represent the different states the UI can be in (e.g., `PublicEventsState.initial()`, `PublicEventsState.loading()`, `PublicEventsState.loaded()`, `PublicEventsState.error()`, `PublicEventsState.empty()`). Each state carries the necessary data for the UI to render. `freezed` is also used for states, ensuring immutability and easy pattern matching in the UI (`state.map()` or `state.when()`).
 * **BLoC (`events_bloc.dart`):** This is the core component that processes events and emits new states. It listens to incoming `Events`, executes business logic (via `UseCases`), and then transforms the results into new `States` that are streamed to the UI. The BLoC is annotated with `@injectable` for automatic dependency injection.
 
 This event-state pattern ensures that all state changes are explicit, traceable, and testable, leading to a more stable and maintainable application.
@@ -96,7 +96,7 @@ This comprehensive caching strategy ensures data persistence, faster loading tim
     * **Trade-off:** Reduced data granularity in the domain layer and potentially less dynamic UI elements.
     * **Reasoning:** This decision prioritizes rapid adaptation to the new API structure and prevents immediate UI crashes. In a real-world scenario, this would necessitate communication with the backend team to understand if these crucial data points are still available via other means or if the UI design needs to be revised to accommodate their absence.
 
-## Unit Testing
+## Testing
 
 Unit tests are crucial for verifying the correctness of individual components in isolation, ensuring that specific pieces of business logic behave as expected. This project uses `flutter_test` for testing, `mockito` for creating mock objects, and `bloc_test` for simplifying BLoC testing.
 
@@ -111,20 +111,20 @@ Unit tests are crucial for verifying the correctness of individual components in
   * Assert the expected sequence of states (`expect`).
   * Verify interactions with mocks (`verify`).
 
-**Example Test (`test/features/events/presentation/bloc/events_bloc_test.dart`):**
+**Example Test (`test/public_events_explore_test/presentation/bloc/public_events_bloc_test.dart`):**
 
 The `PublicEventBloc` is a prime candidate for unit testing as it contains the core business logic for fetching, searching, and filtering events. The tests cover scenarios such as:
 
-* **Initial State:** Verifying that the BLoC starts in the `EventsState.initial` state.
+* **Initial State:** Verifying that the BLoC starts in the `PublicEventsState.initial` state.
 * **Successful Fetch (`FetchEvents`):**
-  * Tests that when `FetchEvents` is added, the BLoC emits `EventsState.loading` followed by `EventsState.loaded` with the correct data.
+  * Tests that when `FetchEvents` is added, the BLoC emits `PublicEventsState.loading` followed by `PublicEventsState.loaded` with the correct data.
   * Verifies that the `GetEvents` use case is called with the correct parameters.
 * **Failed Fetch (`FetchEvents` with Server Error):**
-  * Tests that if the `GetEvents` use case returns a `ServerFailure`, the BLoC emits `EventsState.loading` followed by `EventsState.error`.
+  * Tests that if the `GetEvents` use case returns a `ServerFailure`, the BLoC emits `PublicEventsState.loading` followed by `PublicEventsState.error`.
 * **Trending Filter:**
   * Demonstrates how the BLoC applies client-side filtering for "trending" events based on a parameter passed to the `FetchEvents` event.
 * **Pagination (`LoadMoreEvents`):**
-  * Tests that when `LoadMoreEvents` is added (and `hasMore` is true), the BLoC increments the page number and appends new events to the existing list, emitting `EventsState.loading` (with old data) and then `EventsState.loaded`.
+  * Tests that when `LoadMoreEvents` is added (and `hasMore` is true), the BLoC increments the page number and appends new events to the existing list, emitting `PublicEventsState.loading` (with old data) and then `PublicEventsState.loaded`.
   * Also tests that no event is emitted if `LoadMoreEvents` is called when `hasMore` is false.
 * **Search (`SearchEvents`):**
   * Verifies that adding a `SearchEvents` event triggers a new fetch with the provided keyword and resets pagination/category.

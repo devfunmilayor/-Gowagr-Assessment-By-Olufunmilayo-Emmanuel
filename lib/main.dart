@@ -7,11 +7,9 @@ import 'package:gowagr_assessment/features/events/presentation/bloc/public_event
 import 'package:gowagr_assessment/features/events/presentation/views/qalla_tab_page.dart';
 import 'package:gowagr_assessment/features/theme/presentation/app_theme.dart';
 import 'package:gowagr_assessment/features/theme/presentation/bloc/theme_bloc.dart';
-import 'package:gowagr_assessment/features/theme/presentation/bloc/theme_event.dart';
 import 'package:gowagr_assessment/features/theme/presentation/bloc/theme_state.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,36 +46,6 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final currentThemeMode =
-        context.select((ThemeBloc bloc) => bloc.state.themeMode);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Qalla.',
-            style: GoogleFonts.archivo(fontWeight: FontWeight.bold)),
-        actions: [
-          IconButton(
-            icon: Icon(
-              currentThemeMode == ThemeMode.light
-                  ? Icons.dark_mode
-                  : Icons.light_mode,
-            ),
-            onPressed: () {
-              context.read<ThemeBloc>().add(ThemeEvent.toggleTheme());
-            },
-          ),
-        ],
-      ),
-      body: const QallaTabPage(),
     );
   }
 }
