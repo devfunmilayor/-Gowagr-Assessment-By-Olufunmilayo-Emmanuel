@@ -86,7 +86,7 @@ This comprehensive caching strategy ensures data persistence, faster loading tim
 
 4. **Handling `trending` and `category` Filters:**
     * The latest API response structure primarily provides events and a pagination object, without explicit `trending` or direct `category` query parameters for the main endpoint.
-    * **Decision & Trade-off:** The `trending` filter is implemented **client-side** within the `EventsBloc`. When the "Trending" chip is selected, the BLoC still fetches all events from the API (or cache), and then filters the received `EventEntity` list locally based on a `trending` flag (which is currently a placeholder in `EventEntity` as it's not directly provided by the new API at the market level). The `category` filter is also applied client-side.
+    * **Decision & Trade-off:** The `trending` filter is implemented **client-side** within the `PublicEventBloc`. When the "Trending" chip is selected, the BLoC still fetches all events from the API (or cache), and then filters the received `EventEntity` list locally based on a `trending` flag (which is currently a placeholder in `EventEntity` as it's not directly provided by the new API at the market level). The `category` filter is also applied client-side.
     * **Impact:**
         * **Positive:** Enables the UI features ("Trending" and category filters) despite API limitations, providing a functional user experience.
         * **Negative:** Can lead to inefficient data transfer and client-side processing, especially if the total number of events is very large and only a small subset is actually "trending" or belongs to a specific category. For a production-grade application, the ideal solution would involve backend support for these filters via API query parameters to reduce network load. This was a necessary compromise given the provided API structure for rapid development.
@@ -113,7 +113,7 @@ Unit tests are crucial for verifying the correctness of individual components in
 
 **Example Test (`test/features/events/presentation/bloc/events_bloc_test.dart`):**
 
-The `EventsBloc` is a prime candidate for unit testing as it contains the core business logic for fetching, searching, and filtering events. The tests cover scenarios such as:
+The `PublicEventBloc` is a prime candidate for unit testing as it contains the core business logic for fetching, searching, and filtering events. The tests cover scenarios such as:
 
 * **Initial State:** Verifying that the BLoC starts in the `EventsState.initial` state.
 * **Successful Fetch (`FetchEvents`):**

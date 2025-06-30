@@ -5,20 +5,31 @@ import 'package:gowagr_assessment/features/events/domain/entities/pagination_ent
 import 'package:gowagr_assessment/features/events/domain/repositories/event_repository.dart';
 import 'package:injectable/injectable.dart';
 
-class GetEventsParams {
+import 'package:equatable/equatable.dart';
+
+class GetEventsParams extends Equatable {
+  final String? category;
   final String? keyword;
-  final bool? trending;
   final int page;
   final int size;
-  final String? category;
+  final bool trending;
 
-  GetEventsParams({
+  const GetEventsParams({
+    this.category,
     this.keyword,
-    this.trending,
     required this.page,
     required this.size,
-    this.category,
+    required this.trending,
   });
+
+  @override
+  List<Object?> get props => [
+        category,
+        keyword,
+        page,
+        size,
+        trending,
+      ];
 }
 
 @injectable

@@ -107,7 +107,7 @@ class PublicEventBloc extends Bloc<PublicEventsEvent, PublicEventsState> {
     final result = await _getPublicEventsUsecase(
       GetEventsParams(
         keyword: _keyword,
-        trending: _category == 'Trending' ? true : null,
+        trending: _category == 'Trending' ? true : false,
         category: _category == 'Trending' ? null : _category,
         page: page,
         size: 10,

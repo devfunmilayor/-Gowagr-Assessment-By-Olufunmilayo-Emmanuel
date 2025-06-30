@@ -6,20 +6,30 @@ import 'package:gowagr_assessment/features/events/domain/entities/event_entity.d
 import 'package:gowagr_assessment/features/events/domain/entities/market_entity.dart';
 import 'package:intl/intl.dart';
 
-class EventCard extends StatelessWidget {
+class EventCard extends StatefulWidget {
   final EventEntity event;
 
   const EventCard({super.key, required this.event});
 
   @override
-  Widget build(BuildContext context) {
-    final String imageUrl = event.image128Url ??
-        event.imageUrl ??
-        'https://via.placeholder.com/150';
-    final String eventTitle = event.title;
+  State<EventCard> createState() => _EventCardState();
+}
 
-    final String formattedEndDate = event.resolutionDate != null
-        ? DateFormat('MMM d.').format(event.resolutionDate!)
+class _EventCardState extends State<EventCard> {
+  final Map<String, bool?> _selectedMarketOption = {};
+
+  bool _isFavorited = false;
+  bool _isTradesIconClicked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final String imageUrl = widget.event.image128Url ??
+        widget.event.imageUrl ??
+        'https://via.placeholder.com/150';
+    final String eventTitle = widget.event.title;
+
+    final String formattedEndDate = widget.event.resolutionDate != null
+        ? DateFormat('MMM d.').format(widget.event.resolutionDate!)
         : DateFormat('MMM d.').format(DateTime.now());
 
     return Card(
@@ -67,7 +77,7 @@ class EventCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            if (event.markets.isEmpty)
+            if (widget.event.markets.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
@@ -75,17 +85,25 @@ class EventCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               )
-            else if (event.markets.length == 1)
-              _buildSingleMarketSection(context, event.markets.first)
+            else if (widget.event.markets.length == 1)
+              _buildSingleMarketSection(context, widget.event.markets.first)
             else
-              ...event.markets.map((market) {
+              ...widget.event.markets.map((market) {
                 return _buildMultiMarketSection(context, market);
               }),
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildTotalEventTradesInfo(context, event.markets),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isTradesIconClicked = !_isTradesIconClicked;
+                    });
+                  },
+                  child: _buildTotalEventTradesInfo(
+                      context, widget.event.markets, _isTradesIconClicked),
+                ),
                 Row(
                   children: [
                     Text(
@@ -93,8 +111,20 @@ class EventCard extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const SizedBox(width: 8),
-                    Icon(Icons.bookmark_border,
-                        color: Theme.of(context).iconTheme.color, size: 18),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isFavorited = !_isFavorited;
+                        });
+                      },
+                      child: Icon(
+                        _isFavorited ? Icons.favorite : Icons.favorite_border,
+                        color: _isFavorited
+                            ? AppColors.dangerRed
+                            : Theme.of(context).iconTheme.color,
+                        size: 18,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -106,7 +136,6 @@ class EventCard extends StatelessWidget {
   }
 
   Widget _buildSingleMarketSection(BuildContext context, MarketEntity market) {
-    final String marketTitle = market.title;
     final String buyYesPrice = 'N${market.yesBuyPrice.toStringAsFixed(2)}';
     final String buyNoPrice = 'N${market.noBuyPrice.toStringAsFixed(2)}';
     final String yesProfit =
@@ -116,42 +145,39 @@ class EventCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          marketTitle,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).textTheme.bodyLarge?.color,
+        Padding(
+          padding: const EdgeInsets.only(top: 12.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: _buildFullWidthBuyButton(
+                  label: 'Buy Yes',
+                  price: buyYesPrice,
+                  isYes: true,
+                ),
               ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildFullWidthBuyButton(
+                  label: 'Buy No',
+                  price: buyNoPrice,
+                  isYes: false,
+                ),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
-              child: _buildFullWidthBuyButton(
-                label: 'Buy Yes',
-                price: buyYesPrice,
-                isYes: true,
-              ),
+              child: _buildProfitInfo(context, yesProfit,
+                  isYes: true, market: market, isSingleMarketDisplay: true),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: _buildFullWidthBuyButton(
-                label: 'Buy No',
-                price: buyNoPrice,
-                isYes: false,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: _buildProfitInfo(context, yesProfit, isYes: true),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _buildProfitInfo(context, noProfit, isYes: false),
+              child: _buildProfitInfo(context, noProfit,
+                  isYes: false, market: market, isSingleMarketDisplay: true),
             ),
           ],
         ),
@@ -164,11 +190,6 @@ class EventCard extends StatelessWidget {
     final String marketTitle = market.title;
     final String buyYesPrice = 'N${market.yesBuyPrice.toStringAsFixed(2)}';
     final String buyNoPrice = 'N${market.noBuyPrice.toStringAsFixed(2)}';
-    final String yesProfit =
-        '${market.yesProfitForEstimate.toStringAsFixed(0)}%';
-    final String noProfit = '${market.noProfitForEstimate.toStringAsFixed(0)}%';
-    final int totalTrades =
-        ((market.volumeValueYes) + (market.volumeValueNo)).toInt();
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -194,34 +215,31 @@ class EventCard extends StatelessWidget {
                 label: 'Yes',
                 price: buyYesPrice,
                 isYes: true,
+                isSelected: _selectedMarketOption[market.id] == true,
+                onTap: () {
+                  setState(() {
+                    _selectedMarketOption[market.id] = true;
+                  });
+                },
               ),
               const SizedBox(width: 8),
               _buildCompactBuyButton(
                 label: 'No',
                 price: buyNoPrice,
                 isYes: false,
+                isSelected: _selectedMarketOption[market.id] == false,
+                onTap: () {
+                  setState(() {
+                    _selectedMarketOption[market.id] = false;
+                  });
+                },
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                width: 80,
-                child: _buildProfitInfo(context, yesProfit, isYes: true),
-              ),
-              const SizedBox(width: 8),
-              SizedBox(
-                width: 80,
-                child: _buildProfitInfo(context, noProfit, isYes: false),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          _buildTradesInfo(context, totalTrades),
-          if (event.markets.indexOf(market) != event.markets.length - 1)
-            const Divider(height: 24, thickness: 0.5),
+          if (widget.event.markets.indexOf(market) !=
+              widget.event.markets.length - 1)
+            const Divider(height: 18, thickness: 0.1),
         ],
       ),
     );
@@ -268,65 +286,117 @@ class EventCard extends StatelessWidget {
     });
   }
 
-  Widget _buildCompactBuyButton(
-      {required String label, required String price, required bool isYes}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-      decoration: BoxDecoration(
-        border: Border.all(
+  Widget _buildCompactBuyButton({
+    required String label,
+    required String price,
+    required bool isYes,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+        decoration: BoxDecoration(
+          border: Border.all(
             width: 0.2,
-            color: isYes ? AppColors.primaryBlue : AppColors.dangerRed),
-        color: isYes
-            ? AppColors.primaryBlue.withOpacity(0.1)
-            : AppColors.dangerRed.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.archivo(
-              fontSize: 12,
-              color: isYes ? AppColors.primaryBlue : AppColors.dangerRed,
-              fontWeight: FontWeight.w500,
-            ),
+            color: isSelected
+                ? (isYes ? AppColors.primaryBlue : AppColors.dangerRed)
+                : (isYes ? AppColors.primaryBlue : AppColors.dangerRed),
           ),
-          const SizedBox(width: 4),
-          Text(
-            price,
-            style: GoogleFonts.archivo(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: isYes ? AppColors.primaryBlue : AppColors.dangerRed,
+          color: isSelected
+              ? (isYes ? AppColors.primaryBlue : AppColors.dangerRed)
+              : (isYes
+                  ? AppColors.primaryBlue.withOpacity(0.1)
+                  : AppColors.dangerRed.withOpacity(0.1)),
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.archivo(
+                fontSize: 12,
+                color: isSelected
+                    ? Colors.white
+                    : (isYes ? AppColors.primaryBlue : AppColors.dangerRed),
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: 4),
+            Text(
+              price,
+              style: GoogleFonts.archivo(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: isSelected
+                    ? Colors.white
+                    : (isYes ? AppColors.primaryBlue : AppColors.dangerRed),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildProfitInfo(BuildContext context, String profit,
-      {required bool isYes}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Icon(
-          isYes ? Icons.arrow_upward : Icons.arrow_downward,
-          color: isYes ? AppColors.successGreen : AppColors.dangerRed,
-          size: 14,
-        ),
-        const SizedBox(width: 2),
-        Text(
-          profit,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w500,
-                color: isYes ? AppColors.successGreen : AppColors.dangerRed,
-                fontSize: 11,
-              ),
-        ),
-      ],
-    );
+      {required bool isYes,
+      MarketEntity? market,
+      required bool isSingleMarketDisplay}) {
+    if (isSingleMarketDisplay) {
+      final double volumeValue =
+          isYes ? (market?.volumeValueYes ?? 0) : (market?.volumeValueNo ?? 0);
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'N${volumeValue.toInt()}K',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                  fontSize: 11,
+                ),
+          ),
+          const SizedBox(width: 2),
+          Icon(
+            Icons.arrow_right_alt_outlined,
+            color: isYes ? AppColors.successGreen : AppColors.dangerRed,
+            size: 14,
+          ),
+          const SizedBox(width: 2),
+          Text(
+            'N$profit',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: isYes ? AppColors.successGreen : AppColors.dangerRed,
+                  fontSize: 11,
+                ),
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Icon(
+            isYes ? Icons.arrow_upward : Icons.arrow_downward,
+            color: isYes ? AppColors.successGreen : AppColors.dangerRed,
+            size: 14,
+          ),
+          const SizedBox(width: 2),
+          Text(
+            profit,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: isYes ? AppColors.successGreen : AppColors.dangerRed,
+                  fontSize: 11,
+                ),
+          ),
+        ],
+      );
+    }
   }
 
   Widget _buildTradesInfo(BuildContext context, int trades) {
@@ -344,7 +414,7 @@ class EventCard extends StatelessWidget {
   }
 
   Widget _buildTotalEventTradesInfo(
-      BuildContext context, List<MarketEntity> markets) {
+      BuildContext context, List<MarketEntity> markets, bool isClicked) {
     int totalTrades = 0;
     for (var market in markets) {
       totalTrades += ((market.volumeValueYes) + (market.volumeValueNo)).toInt();
@@ -352,11 +422,18 @@ class EventCard extends StatelessWidget {
     return Row(
       children: [
         Icon(Icons.bar_chart,
-            color: Theme.of(context).iconTheme.color, size: 18),
+            color: isClicked
+                ? AppColors.primaryBlue
+                : Theme.of(context).iconTheme.color,
+            size: 18),
         const SizedBox(width: 4),
         Text(
           '$totalTrades Trades',
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: isClicked
+                    ? AppColors.primaryBlue
+                    : Theme.of(context).textTheme.bodySmall?.color,
+              ),
         ),
       ],
     );
